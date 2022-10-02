@@ -10,6 +10,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: white;
 }
 
 .footer {
@@ -53,7 +54,7 @@
 .description {
   margin: 0 0 2rem;
   line-height: 1.5;
-  font-size: 1.5rem;
+  font-size: 1.1rem;
 }
 
 .grid {
@@ -79,8 +80,9 @@
 .card:hover,
 .card:focus,
 .card:active {
-  color: #0d76fc;
-  border-color: #0d76fc;
+  color: #9969FF;
+  border-color: #9969FF;
+  background-color: white;
 }
 
 .card h2 {
