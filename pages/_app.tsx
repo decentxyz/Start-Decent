@@ -5,6 +5,7 @@ import { RainbowKitProvider, getDefaultWallets } from '@rainbow-me/rainbowkit';
 import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
+import { ToastContainer } from 'react-toastify';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [
@@ -13,21 +14,20 @@ const { chains, provider, webSocketProvider } = configureChains(
     chain.optimism,
     chain.arbitrum,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-      ? [chain.goerli, chain.kovan, chain.rinkeby, chain.ropsten]
+      ? [chain.goerli, chain.rinkeby, chain.polygonMumbai, chain.arbitrumRinkeby, chain.optimismGoerli]
       : []),
   ],
   [
     alchemyProvider({
-      // This is Alchemy's default API key.
-      // You can get your own at https://dashboard.alchemyapi.io
-      apiKey: '_gg7wSSi0KMBsdKnGVfHDueq6xMB9EkC',
+      apiKey: '0jEGdrOL9bPX8YEcylQIuYm6cgObvmHo',
+      priority: 0,
     }),
-    publicProvider(),
+    publicProvider({ priority: 1 }),
   ]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'RainbowKit App',
+  appName: 'Start Decent',
   chains,
 });
 
@@ -43,6 +43,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains}>
         <Component {...pageProps} />
+        <ToastContainer />
       </RainbowKitProvider>
     </WagmiConfig>
   );

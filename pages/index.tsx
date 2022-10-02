@@ -34,7 +34,7 @@ const Home: NextPage = () => {
         <div className={styles.grid}>
           {/* need to confirm this is the url we want */}
           <Link href='/deploy-contracts'>
-          <p className={styles.card}>
+          <p className={`${styles.card} cursor-pointer`}>
             <h2 className='font-medium'>Test Decent Contracts &rarr;</h2>
             <p>Deploying sophisticated contracts has never been easier.</p>
           </p>

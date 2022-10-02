@@ -26,3 +26,12 @@ a {
       radial-gradient(farthest-corner at 120% 120%, rgba(115, 15, 230, 0.7) 0, transparent 40%);
 }
 
+h1 {
+  @apply text-3xl font-medium
+}
+
+.diplay-wallet {
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
