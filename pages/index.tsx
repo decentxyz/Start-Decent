@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <div className={`${styles.container} background`}>
       <Head>
-        <title>Start Decent</title>
+        <title>Start off Decent</title>
         <meta
           name="A template for implementing the Decent Protocol wtih Rainbowkit in Next JS"
         />
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
           {/* need to confirm this is the url we want */}
           <Link href='/deploy-contracts'>
           <p className={`${styles.card} cursor-pointer`}>
-            <h2 className='font-medium'>Test Decent Contracts &rarr;</h2>
+            <h2 className='font-medium'>Test Decent Editions &rarr;</h2>
             <p>Deploying sophisticated contracts has never been easier.</p>
           </p>
           </Link>
@@ -60,10 +60,10 @@ const Home: NextPage = () => {
             <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
-          <a href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app" className={styles.card}>
-            <h2 className='font-medium'>Deploy &rarr;</h2>
+          <a href="https://decent.xyz" className={styles.card}>
+            <h2 className='font-medium'>Decent Creator Studio &rarr;</h2>
             <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
+              {`Explore Decent's creator studio for no-code deployments.`}
             </p>
           </a>
         </div>
