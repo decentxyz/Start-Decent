@@ -6,7 +6,6 @@ import { ErrorMessage } from '@hookform/error-message';
 import { DecentSDK, edition, ipfs } from '@decent.xyz/sdk'; //Note: not using ipfs in demo
 import { useSigner, useNetwork } from 'wagmi';
 import { ethers } from "ethers";
-import Image from 'next/image';
 import { toast } from "react-toastify";
 import InfoField from "../components/InfoField";
 

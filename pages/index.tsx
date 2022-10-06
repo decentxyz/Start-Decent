@@ -23,7 +23,6 @@ const Home: NextPage = () => {
           Welcome to the Decent Protocol
         </h1>
 
-        {/* need to update decent docs link */}
         <div className={`${styles.description} flex items-center gap-2`}>
           <p>Powered by</p>
           <a className='pt-2' href="https://github.com/decentxyz/DecentSDK-docs"><Image src='/images/icon.png' height={20} width={25} alt='decent icon'/></a>
@@ -32,12 +31,11 @@ const Home: NextPage = () => {
         </div>
 
         <div className={styles.grid}>
-          {/* need to confirm this is the url we want */}
-          <Link href='/deploy-contracts'>
-          <p className={`${styles.card} cursor-pointer`}>
+          <Link className='cursor-pointer' href='/deploy-contracts'>
+          <div className={styles.card}>
             <h2 className='font-medium'>Test Decent Editions &rarr;</h2>
             <p>Deploying sophisticated contracts has never been easier.</p>
-          </p>
+          </div>
           </Link>
 
           <a href="https://github.com/decentxyz/DecentSDK-docs" className={styles.card}>
