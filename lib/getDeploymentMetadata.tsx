@@ -1,6 +1,6 @@
 import { ipfs } from "@decent.xyz/sdk";
 
-const loadImage = async (ipfsUri) => {
+const loadImage = async (ipfsUri: any) => {
   const response = await fetch(ipfsUri);
   const blob = await response.blob();
   const file = new File([blob], "image", { type: blob.type });
@@ -34,13 +34,18 @@ const getDeploymentMetadata = async ({
   external_url = null,
   trackNumber = null,
   lyrics = null,
-}) => {
+}: any) => {
   const metadata = {
     image: image.raw,
     name,
+    mimeType,
     description,
     version: "0.1.0",
     title,
+    animation_url: image.animation_url,
+    losslessAudio: audioFile.losslessAudio,
+    visualizer,
+    artwork,
     tags,
     credits,
     attributes,
@@ -67,7 +72,7 @@ const getDeploymentMetadata = async ({
       metadata.losslessAudio = audioFile.raw;
     }
   } else {
-    metadata.mimeType = image.raw.type;
+    metadata.mimeType = image?.raw?.type;
   }
   if (artwork) {
     if (artwork.raw) {

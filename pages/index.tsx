@@ -11,7 +11,8 @@ const Home: NextPage = () => {
       <Head>
         <title>Start off Decent</title>
         <meta
-          name="A template for implementing the Decent Protocol wtih Rainbowkit in Next JS"
+          name="description"
+          content='A template for implementing the Decent Protocol wtih Rainbowkit in Next JS'
         />
         <link rel="icon" href="/images/favi.png" />
       </Head>
@@ -30,8 +31,8 @@ const Home: NextPage = () => {
           <a href='href="https://nextjs.org/docs"'> + Next.js</a>
         </div>
 
-        <div className={styles.grid}>
-          <Link className='cursor-pointer' href='/deploy-contracts'>
+        <div className={`${styles.grid} cursor-pointer`}>
+          <Link href='/deploy-contracts'>
           <div className={styles.card}>
             <h2 className='font-medium'>Test Decent Editions &rarr;</h2>
             <p>Deploying sophisticated contracts has never been easier.</p>
