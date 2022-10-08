@@ -163,7 +163,7 @@ const Deploy: NextPage = () => {
         </button>
       </div>
 
-      <div className="flex justify-between">
+      <div className="flex flex-wrap items-center gap-12">
         <div>
           <p className="font-header">Collection Name</p>
           <input className="border border-black text-black" {...register("collectionName", {required: "Name your collection"} )} />
@@ -171,7 +171,7 @@ const Deploy: NextPage = () => {
         </div>
 
         <div>
-          <div className="pb-2 flex gap-1">
+          <div className="pb-2 flex gap-1 items-center">
             <p className="font-header">Edition Size</p>
             <InfoField isHovering={isHovering1} setIsHovering={setIsHovering1} xDirection={'right'} yDirection={'bottom'} infoText={"Number of NFTs available in the collection."} />
           </div>
@@ -179,15 +179,13 @@ const Deploy: NextPage = () => {
         </div>
 
         <div>
-          <div className="pb-2 flex gap-1">
+          <div className="pb-2 flex gap-1 items-center">
             <p className="font-header">Purchase Count (Optional)</p>
-            <InfoField isHovering={isHovering2} setIsHovering={setIsHovering2} xDirection={'left'} yDirection={'bottom'} infoText={"Enter the number of NFTs each user can mint at one time.."} />
+            <InfoField isHovering={isHovering2} setIsHovering={setIsHovering2} xDirection={'right'} yDirection={'bottom'} infoText={"Enter the number of NFTs each user can mint at one time.."} />
           </div>
           <input className="border border-black text-black" {...register("maxTokenPurchase" )} />
         </div>
-      </div>
 
-      <div className="flex justify-between mt-6">
         <div>
           <p className="font-header">Symbol</p>
           <input className="border border-black text-black" {...register("symbol", {required: "Give your collection a symbol"} )} />
@@ -204,7 +202,7 @@ const Deploy: NextPage = () => {
         <div>
           <div className="pb-2 flex gap-1">
             <p>Creator Royalty (Optional)</p>
-            <InfoField isHovering={isHovering3} setIsHovering={setIsHovering3} xDirection={'right'} yDirection={'bottom'} infoText={"Please enter a percentage that you would like to receive from the value of every sale.  We use EIP 2981."} />
+            <InfoField isHovering={isHovering3} setIsHovering={setIsHovering3} xDirection={'left'} yDirection={'bottom'} infoText={"Please enter a percentage that you would like to receive from the value of every sale.  We use EIP 2981."} />
           </div>
           <div className="flex items-center w-fit text-black relative">
             <input 
@@ -216,7 +214,7 @@ const Deploy: NextPage = () => {
 
       <div>
         <p className="font-header">Description</p>
-        <textarea className="border border-black text-black w-1/4" {...register("description", {required: "Please enter a description."} )} />
+        <textarea className="border border-black text-black w-1/2" {...register("description", {required: "Please enter a description."} )} />
         <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="description" /></p>
       </div>
 
@@ -224,8 +222,8 @@ const Deploy: NextPage = () => {
 
       <button className="pt-8 flex gap-4 items-center" type="button" onClick={() => deployFunction()}>
         <input type="submit" className="cursor-pointer bg-white text-black px-4 py-1 rounded-full"/>
-        <p className="italic text-xs">{showLink ? `Edition created! Paste this into the blockscanner of your chain of choice to verify ${link}` : 'be patient, wallet confimration can take a sec'}</p>
       </button>
+      <p className="italic text-xs pt-4">{showLink ? `Edition created! Paste this into the blockscanner of your chain of choice to verify ${link}` : 'be patient, wallet confimration can take a sec'}</p>
       </form>
       </FormProvider>
     </div>
