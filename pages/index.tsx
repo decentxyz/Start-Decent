@@ -26,7 +26,7 @@ const Home: NextPage = () => {
 
         <div className={`${styles.description} flex items-center gap-2`}>
           <p>Powered by</p>
-          <a className='pt-2' href="https://github.com/decentxyz/DecentSDK-docs"><Image src='/images/icon.png' height={20} width={25} alt='decent icon'/></a>
+          <a className='pt-2' href="https://decentxyz.gitbook.io/decent-sdk-documentation/"><Image src='/images/icon.png' height={20} width={25} alt='decent icon'/></a>
           <a href="https://rainbowkit.com" className='text-lg'> + 🌈</a>
           <a href='href="https://nextjs.org/docs"'> + Next.js</a>
         </div>
@@ -39,7 +39,7 @@ const Home: NextPage = () => {
           </div>
           </Link>
 
-          <a href="https://docs.decent.xyz" className={styles.card}>
+          <a href="https://decentxyz.gitbook.io/decent-sdk-documentation/" className={styles.card}>
             <h2 className='font-medium'>Decent Protocol Docs &rarr;</h2>
             <p>Review smart contracts and architecture.</p>
           </a>
