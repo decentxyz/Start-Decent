@@ -4,7 +4,13 @@ The purpose of this repository is to get you up & running quickly with the Decen
 
 ## Getting Started
 
-First, run the development server:
+First, install dependencies using npm (note: ```bash yarn add``` has reported mixed results):
+
+```bash
+npm i
+```
+
+Then, run the development server:
 
 ```bash
 npm run dev
