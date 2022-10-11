@@ -4,7 +4,7 @@ The purpose of this repository is to get you up & running quickly with the Decen
 
 ## Getting Started
 
-First, install dependencies using npm (note: ```bash yarn add``` has reported mixed results):
+First, install dependencies using npm (note: ```yarn add``` has reported mixed results):
 
 ```bash
 npm i
