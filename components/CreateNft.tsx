@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useForm, FormProvider } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import { DecentSDK, edition, ipfs } from '@decent.xyz/sdk'; //Note: not using ipfs in demo
@@ -138,32 +137,32 @@ const CreateNft = () => {
     <FormProvider {...methods}>
     <form onSubmit={onSubmit} className='gap-4 lg:mx-24 sm:mx-16'>
 
+    <div>
+      <p className="font-header">Image Prom</p>
+      <input className="border border-black text-black w-1/2 text-slate-400 create-field" {...register("description", {required: "Please enter a prompt."} )} />
+      <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="description" /></p>
+    </div>
+
     <MediaUpload nftImage={nftImage} setNftImage={setNftImage} />
 
-    <div className="flex flex-wrap items-center gap-12">
+    <div className="flex flex-wrap items-center gap-12 pt-16">
       <div>
         <p className="font-header">Collection Name</p>
-        <input className="border border-black text-black" {...register("collectionName", {required: "Name your collection"} )} />
+        <input className="border border-black text-slate-400 create-field" {...register("collectionName", {required: "Name your collection"} )} />
         <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="collectionName" /></p>
       </div>
 
       <div>
         <p className="font-header">Symbol</p>
-        <input className="border border-black text-black" {...register("symbol", {required: "Give your collection a symbol"} )} />
+        <input className="border border-black text-black text-slate-400 create-field" {...register("symbol", {required: "Give your collection a symbol"} )} />
         <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="symbol" /></p>
       </div>
 
       <div>
         <p className="font-header">Token Price</p>
-        <input className="border border-black text-black" {...register("tokenPrice", {required: "Must set price for token.  Please set to 0 if you wish for your NFTs to be free."} )} />
+        <input className="border border-black text-black text-slate-400 create-field" {...register("tokenPrice", {required: "Must set price for token.  Please set to 0 if you wish for your NFTs to be free."} )} />
         <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="tokenPrice" /></p>
       </div>
-    </div>
-
-    <div>
-      <p className="font-header">Description</p>
-      <textarea className="border border-black text-black w-1/2" {...register("description", {required: "Please enter a description."} )} />
-      <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="description" /></p>
     </div>
 
     <div className="flex justify-between items-center">
