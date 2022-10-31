@@ -4,11 +4,10 @@ import { useState } from 'react';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import CreateNft from '../components/CreateNft';
-import { ConnectButton } from '@rainbow-me/rainbowkit';
+import GenerateImage from '../components/GenerateImage';
 
 const Home: NextPage = () => {
-  const [makeNft, setMakeNft] = useState(false);
-
+  const [generatedImage, setGeneratedImage] = useState<any>(null);
   return (
     <div className={`${styles.container} background`}>
       <Head>
@@ -26,15 +25,8 @@ const Home: NextPage = () => {
           Create NFTs with Stable Diffusion
         </h1>
 
-        {makeNft ? 
-        <ConnectButton /> :
-        <button className='bg-gray-100 rounded-full drop-shadow-md text-black px-5 py-2 font-medium' onClick={() => setMakeNft(!makeNft)}>
-          Make Image an NFT
-        </button>
-        }
-        {makeNft &&
-        <CreateNft />
-        }
+        <GenerateImage setGeneratedImage={setGeneratedImage} />
+        <CreateNft generatedImage={generatedImage}/>
       </main>
 
       <footer className='py-8 border-t border-white text-white'>
