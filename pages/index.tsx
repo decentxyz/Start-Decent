@@ -1,80 +1,43 @@
-import { ConnectButton } from '@rainbow-me/rainbowkit';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import Link from 'next/link';
+
+import CreateNft from '../components/CreateNft';
 
 const Home: NextPage = () => {
   return (
     <div className={`${styles.container} background`}>
       <Head>
-        <title>Start off Decent</title>
+        <title>AI NFTs</title>
         <meta
           name="description"
-          content='A template for implementing the Decent Protocol wtih Rainbowkit in Next JS'
+          content='Create NFTs using stable diffusion.'
         />
-        <link rel="icon" href="/images/favi.png" />
+        <link rel="icon" href="/images/ai-robot.png" />
       </Head>
 
       <main className={styles.main}>
-        <ConnectButton />
 
         <h1 className={`${styles.title} font-medium`}>
-          Welcome to the Decent Protocol
+          Create NFTs with Stable Diffusion
         </h1>
 
-        <div className={`${styles.description} flex items-center gap-2`}>
-          <p>Powered by</p>
-          <a className='pt-2' href="https://decentxyz.gitbook.io/decent-sdk-documentation/"><Image src='/images/icon.png' height={20} width={25} alt='decent icon'/></a>
-          <a href="https://rainbowkit.com" className='text-lg'> + 🌈</a>
-          <a href='href="https://nextjs.org/docs"'> + Next.js</a>
-        </div>
-
-        <div className={`${styles.grid} cursor-pointer`}>
-          <Link href='/deploy-contracts'>
-          <div className={styles.card}>
-            <h2 className='font-medium'>Test Decent Editions &rarr;</h2>
-            <p>Deploying sophisticated contracts has never been easier.</p>
-          </div>
-          </Link>
-
-          <a href="https://decentxyz.gitbook.io/decent-sdk-documentation/" className={styles.card}>
-            <h2 className='font-medium'>Decent Protocol Docs &rarr;</h2>
-            <p>Review smart contracts and architecture.</p>
-          </a>
-
-          <a href="https://rainbowkit.com" className={styles.card}>
-            <h2 className='font-medium'>RainbowKit Docs &rarr;</h2>
-            <p>Learn how to customize your wallet connection flow.</p>
-          </a>
-
-          <a href="https://wagmi.sh" className={styles.card}>
-            <h2 className='font-medium'>wagmi Docs &rarr;</h2>
-            <p>Learn how to interact with Ethereum.</p>
-          </a>
-
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2 className='font-medium'>Next.js Docs &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://hq.decent.xyz" className={styles.card}>
-            <h2 className='font-medium'>Decent Creator Studio &rarr;</h2>
-            <p>
-              {`Explore Decent's creator studio for no-code deployments.`}
-            </p>
-          </a>
-        </div>
+        <CreateNft />
       </main>
 
       <footer className='py-8 border-t border-white text-white'>
         <div>
-        <p className='flex justify-center pb-4 text-xl'>For the artists of every industry 🥂</p>
-        <a className='flex justify-center items-center text-xl' href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
-         <span className='pr-4'>🏗️</span> 
-        <Image src='/images/decent.png' height={18} width={100} alt='Decent 💪' />
-        </a>
+        <p className='flex justify-center pb-4 text-xl'>🤝 Prompt Arist</p>
+        <div className='flex items-center justify-center text-xl'>
+          <a href="https://huggingface.co/spaces/stabilityai/stable-diffusion" target="_blank" rel="noopener noreferrer">
+          <span className='pr-2 pb-1'>🤗</span> 
+          </a>
+          <span className='pr-2 pb-1'>✘</span>
+          <a href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
+            <Image src='/images/icon.png' height={24} width={24} alt='Decent 💪' />
+          </a>
+        </div>
         </div>
       </footer>
     </div>
