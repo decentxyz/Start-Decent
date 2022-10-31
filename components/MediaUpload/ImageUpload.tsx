@@ -15,7 +15,7 @@ const ImageUpload = ({ nftImage, setNftImage, formRegisterName, label }: any) =>
   };
 
   return (
-    <label>
+    <label className="flex justify-center">
       <input
         type="file"
         style={{ display: "none" }}
@@ -27,19 +27,9 @@ const ImageUpload = ({ nftImage, setNftImage, formRegisterName, label }: any) =>
           }
         })}
       />
-      <div className="relative cursor-pointer w-full flex items-center justify-center border border-gray-400 border-dashed rounded-md mt-6 gap-3 p-2">
-        <p style={{ left:17, top:9 }}>
-          <Image
-            title=""
-            width={68}
-            height={59.23}
-            src={nftImage.preview}
-            alt="nft image"
-          />
-        </p>
-        <div>
-          <p className="upload-header">{label}</p>
-          <p className="upload-subtext">Image, video, pdfs, 3D {"&"} html</p>
+      <div className="relative h-96 w-96 border border-white rounded-md">
+        <div style={{ height: "100%", width: "100%" }}>
+          <Image className="rounded-md" src={nftImage.preview} fill object-fit='contain' alt='your nft' />
         </div>
       </div>
       <p className="error-text"><ErrorMessage errors={errors} name={formRegisterName} /></p>
