@@ -5,11 +5,9 @@ import { ErrorMessage } from '@hookform/error-message';
 import { DecentSDK, edition, ipfs } from '@decent.xyz/sdk'; //Note: not using ipfs in demo
 import { useSigner, useNetwork } from 'wagmi';
 import { ethers } from "ethers";
-// import InfoField from "./InfoField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import getDeploymentMetadata from "../lib/getDeploymentMetadata";
-import MediaUpload from "./MediaUpload/MediaUpload";
 
 const schema = yup.object().shape({
   collectionName: yup.string()
@@ -33,10 +31,6 @@ const schema = yup.object().shape({
       : yup.number()
         .typeError('Royalty must be a valid number. Please set to 0 if you do not wish to set a royalty.')
   }),
-  nftImage: yup.mixed()
-    .test('file', 'Upload your NFT art.', (value) => {
-      return value?.length > 0;
-    }),
 });
 
 type FormData = {
@@ -49,7 +43,7 @@ type FormData = {
   royalty: number;
 };
 
-const CreateNft = () => {
+const CreateNft: React.FC<any> = ({ generatedImage }) => {
   const { data: signer } = useSigner();
   const { chain } = useNetwork();
 
@@ -59,8 +53,6 @@ const CreateNft = () => {
   const { register, getValues, handleSubmit, clearErrors, reset, formState: { errors, isValid } } = methods;
   const onSubmit = handleSubmit(data => console.log(data));
 
-  const [nftImage, setNftImage] = useState({ preview: '/images/icon.png', raw: { type: "" } });
-  const [audioFile, setAudioFile] = useState({ preview: '/images/icon.png', raw: { type: "" } });
   const [showLink, setShowLink] = useState(false);
   const [link, setLink] = useState('');
 
@@ -70,11 +62,10 @@ const CreateNft = () => {
 
   const getMetadata = async () => {
     const ipfsHash = await getDeploymentMetadata({
-      image: nftImage,
+      image: generatedImage,
       name: getValues("collectionName"),
       description: getValues("description"),
       title: getValues("collectionName"),
-      audioFile: audioFile
     })
     return ipfsHash
   }
@@ -133,13 +124,11 @@ const CreateNft = () => {
   }
 
 
+  if (!generatedImage) return null
+
   return (
-    <>
     <FormProvider {...methods}>
     <form onSubmit={onSubmit} className='gap-4 lg:mx-24 sm:mx-16'>
-
-    <MediaUpload nftImage={nftImage} setNftImage={setNftImage} />
-
     <div className="flex flex-wrap items-center gap-12">
       <div>
         <p className="font-header">Collection Name</p>
@@ -178,7 +167,6 @@ const CreateNft = () => {
     <p className="italic text-xs pt-4">*All NFTs automatically include a 5% creator royalty.</p>
     </form>
     </FormProvider>
-      </>
   )
 }
 

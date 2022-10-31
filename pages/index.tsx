@@ -4,8 +4,11 @@ import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 
 import CreateNft from '../components/CreateNft';
+import GenerateImage from '../components/GenerateImage';
+import { useState } from 'react';
 
 const Home: NextPage = () => {
+  const [generatedImage, setGeneratedImage] = useState<any>(null);
   return (
     <div className={`${styles.container} background`}>
       <Head>
@@ -23,7 +26,8 @@ const Home: NextPage = () => {
           Create NFTs with Stable Diffusion
         </h1>
 
-        <CreateNft />
+        <GenerateImage setGeneratedImage={setGeneratedImage} />
+        <CreateNft generatedImage={generatedImage}/>
       </main>
 
       <footer className='py-8 border-t border-white text-white'>
