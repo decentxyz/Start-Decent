@@ -12,28 +12,28 @@ const getDeploymentMetadata = async ({
   image,
   description,
   title,
-  audioFile,
+  // audioFile,
   mimeType = "",
-  artwork = null,
-  visualizer = null,
-  tags = null,
-  credits = null,
-  attributes = null,
+  // artwork = null,
+  // visualizer = null,
+  // tags = null,
+  // credits = null,
+  // attributes = null,
   project = null,
-  artist = null,
-  genre = null,
-  recordLabel = null,
-  license = null,
-  publisher = null,
-  locationCreated = null,
-  originalReleaseDate = null,
-  bpm = null,
-  duration = null,
-  isrc = null,
-  key = null,
-  external_url = null,
-  trackNumber = null,
-  lyrics = null,
+  // artist = null,
+  // genre = null,
+  // recordLabel = null,
+  // license = null,
+  // publisher = null,
+  // locationCreated = null,
+  // originalReleaseDate = null,
+  // bpm = null,
+  // duration = null,
+  // isrc = null,
+  // key = null,
+  // external_url = null,
+  // trackNumber = null,
+  // lyrics = null,
 }: any) => {
   const metadata = {
     image: image.raw,
@@ -43,65 +43,65 @@ const getDeploymentMetadata = async ({
     version: "0.1.0",
     title,
     animation_url: image.animation_url,
-    losslessAudio: audioFile.losslessAudio,
-    visualizer,
-    artwork,
-    tags,
-    credits,
-    attributes,
+    // losslessAudio: audioFile.losslessAudio,
+    // visualizer,
+    // artwork,
+    // tags,
+    // credits,
+    // attributes,
     project,
-    artist,
-    genre,
-    recordLabel,
-    license,
-    publisher,
-    locationCreated,
-    originalReleaseDate,
-    bpm,
-    duration,
-    isrc,
-    key,
-    external_url,
-    trackNumber,
-    lyrics,
+    // artist,
+    // genre,
+    // recordLabel,
+    // license,
+    // publisher,
+    // locationCreated,
+    // originalReleaseDate,
+    // bpm,
+    // duration,
+    // isrc,
+    // key,
+    // external_url,
+    // trackNumber,
+    // lyrics,
   };
-  if (audioFile.raw) {
-    metadata.mimeType = mimeType || audioFile.raw.type;
-    metadata.animation_url = audioFile.raw;
-    if (metadata.mimeType.includes("wav")) {
-      metadata.losslessAudio = audioFile.raw;
-    }
-  } else {
-    metadata.mimeType = image?.raw?.type;
-  }
-  if (artwork) {
-    if (artwork.raw) {
-      metadata.artwork = {
-        uri: artwork.raw,
-        mimeType: artwork.raw.type,
-      };
-    } else {
-      const artworkFile = await loadImage(artwork.preview);
-      metadata.artwork = {
-        uri: artworkFile,
-        mimeType: artworkFile.type,
-      };
-    }
-  }
-  if (visualizer) {
-    if (visualizer.raw) {
-      metadata.visualizer = {
-        uri: visualizer.raw,
-        mimeType: visualizer.raw.type,
-      };
-    } else {
-      const visualizerFile = await loadImage(visualizer.preview);
-      metadata.visualizer = {
-        uri: visualizerFile,
-        mimeType: visualizerFile.type,
-      };
-    }
-  }
+  // if (audioFile.raw) {
+  //   metadata.mimeType = mimeType || audioFile.raw.type;
+  //   metadata.animation_url = audioFile.raw;
+  //   if (metadata.mimeType.includes("wav")) {
+  //     metadata.losslessAudio = audioFile.raw;
+  //   }
+  // } else {
+  //   metadata.mimeType = image?.raw?.type;
+  // }
+  // if (artwork) {
+  //   if (artwork.raw) {
+  //     metadata.artwork = {
+  //       uri: artwork.raw,
+  //       mimeType: artwork.raw.type,
+  //     };
+  //   } else {
+  //     const artworkFile = await loadImage(artwork.preview);
+  //     metadata.artwork = {
+  //       uri: artworkFile,
+  //       mimeType: artworkFile.type,
+  //     };
+  //   }
+  // }
+  // if (visualizer) {
+  //   if (visualizer.raw) {
+  //     metadata.visualizer = {
+  //       uri: visualizer.raw,
+  //       mimeType: visualizer.raw.type,
+  //     };
+  //   } else {
+  //     const visualizerFile = await loadImage(visualizer.preview);
+  //     metadata.visualizer = {
+  //       uri: visualizerFile,
+  //       mimeType: visualizerFile.type,
+  //     };
+  //   }
+  // }
   if (!metadata.image) {
     metadata.image = await loadImage(image.preview);
   }

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from "next/image";
 import React, { useState } from 'react';
 
@@ -34,6 +35,7 @@ const Navbar = ({ darkMode }: NavbarProps) => {
       <nav className={`${styles.navbar} ${darkMode && styles.darkMode} flex justify-between items-center`} >
         <Image width={60} height={60} src="/images/ai-robot.png" alt="icon" />
         {/* <NavItem href="/" openInNewTab>Dashboard</NavItem> */}
+        <ConnectButton />
       </nav>
     </>
 

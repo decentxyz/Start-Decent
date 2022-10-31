@@ -49,8 +49,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <p className="font-header">Prompt to Generate an Image</p>
-                    <input className="border border-black text-black w-full" {...register("prompt")} />
+                    <input placeholder="Enter prompt to generate an image" className="text-slate-400 w-full create-field" {...register("prompt")} />
                     <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
