@@ -5,6 +5,7 @@ import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import CreateNft from '../components/CreateNft';
 import GenerateImage from '../components/GenerateImage';
+import GenerateImageGame from '../components/GenerateImageGame';
 import { useNetwork } from 'wagmi';
 
 const Home: NextPage = () => {
@@ -12,6 +13,7 @@ const Home: NextPage = () => {
 
   const { chain } = useNetwork();
   const [connected, setConnected] = useState(false);
+  const [active, setActive] = useState('NFTs');
 
   useEffect(() => {
     chain && setConnected(true)
@@ -32,11 +34,20 @@ const Home: NextPage = () => {
       <main className={styles.main}>
 
         <h1 className={`${styles.title} font-medium`}>
-          Create NFTs with Stable Diffusion
+          AI + web3 experiments
         </h1>
-        
-        <GenerateImage setGeneratedImage={setGeneratedImage} />
-        {/* causing hydration error */}
+        <div className='flex gap-16'>
+          <button className='text-xl font-bold hover:text-indigo-400' onClick={() => {setActive('NFTs'); setGeneratedImage(null)}}>
+            Create NFTs with AI
+          </button>
+          <button className='text-xl font-bold hover:text-indigo-400' onClick={() => {setActive('Game'); setGeneratedImage(null)}}>
+            Play the game
+          </button>
+        </div>
+        {active === 'NFTs' ? 
+          <GenerateImage setGeneratedImage={setGeneratedImage} /> :
+          <GenerateImageGame setGeneratedImage={setGeneratedImage} />
+        }
         {connected ?
         <CreateNft generatedImage={generatedImage}/>
         :

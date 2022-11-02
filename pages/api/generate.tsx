@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { generateAsync, generate } from 'stability-client'
+import { generateAsync } from 'stability-client'
 import { SECRET_WORDS } from "./secretWords/hint";
 
 const DREAMSTUDIO_API_KEY = process.env.DREAMSTUDIO_API_KEY || '';
@@ -11,12 +11,14 @@ const DREAMSTUDIO_API_KEY = process.env.DREAMSTUDIO_API_KEY || '';
  */
 export default async function handler(nextReq: NextApiRequest, nextRes: NextApiResponse) {
     const prompt = nextReq.query.prompt as string || 'DJ playing music on turntables to a crowd of people dancing, bright and colorful.';
+    const method = nextReq.query.method as string || 'normal';
 
     const promptWithSecretWords = `${SECRET_WORDS[0]} ${prompt} ${SECRET_WORDS[1]}`;
+    const activePrompt = method === "normal" ? prompt : promptWithSecretWords;
 
     try {
         const { images }: any = await generateAsync({
-            prompt: promptWithSecretWords,
+            prompt: activePrompt,
             apiKey: DREAMSTUDIO_API_KEY,
             height: 512,
             width: 512,
@@ -35,5 +37,4 @@ export default async function handler(nextReq: NextApiRequest, nextRes: NextApiR
         console.error(e);
         nextRes.status(500).send(e);
       }
-
   }

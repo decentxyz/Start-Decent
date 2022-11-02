@@ -1,19 +1,29 @@
-import { useState } from "react";
-import { useForm, FormProvider } from "react-hook-form";
+import { useEffect, useState } from "react";
+import { useForm, FormProvider, Controller } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from 'next/image'
+import GuessWord from "./GuessWords";
 
 const schema = yup.object().shape({
-  prompt: yup.string().required('Prompt is required to generate an image.').min(10, 'Prompt must be at least 10 characters. The longer the prompt the better the image!'),
+  prompt: yup.string()
+    .required('Prompt is required to generate an image.')
+    .min(20, 'Prompt must be at least 20 characters. Too short isnt enough of a challenge!')
+    .test('4_word_minimum', 'Prompt must contain at least four words.', (value) => {
+      if (value) {
+        const words = value.split(' ');
+        return words.length >= 4;
+      }
+      return false;
+    }),
 });
 
 type FormData = {
   prompt: string;
 };
 
-const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
+const GenerateImage: React.FC<any> = ({ setGeneratedImage }, page) => {
   const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -25,8 +35,33 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
 
   const [generatedImageUrl, setGeneratedImageUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [hint, setHint] = useState<any>({});
+  const [hintLoading, setHintLoading] = useState(false);
 
-  const method = "normal";
+  useEffect(() => {
+    const getHint = async () => {
+      setHintLoading(true);
+      try {
+        const response = await fetch('/api/secretWords/hint');
+        const data = await response.json();
+        const words: string[] = data.wordLengths
+          .map((l: number) => Array.from(Array(l).keys()).map(() => '*').join('') )
+          // If we passed the `data.lastLetter` array, this would show the letter
+          .map((w: string, i: number) => !!data.lastLetter ? `${w.substring(0, w.length-1)}${data.lastLetter[i]}` : w)
+        setHint({
+          ...data,
+          words
+        });
+        setHintLoading(false);
+      } catch (error) {
+        console.error(error);
+        setHintLoading(false);
+      }
+    }
+    getHint();
+  }, []);
+
+  const method = "game";
   const generateImage = async (prompt: string) => {
     setIsLoading(true);
     try {
@@ -49,9 +84,16 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <p className="font-header">Prompt to Generate an Image</p>
-                    <input className="border border-black text-black w-full" {...register("prompt")} />
-                    <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="prompt" /></p>
+                    <div className="text-slate-400 w-full create-field bg-white flex gap-1 justify-center">
+                      {!hintLoading && hint.words && <span className="tracking-widest">
+                        {hint.words[0]}
+                      </span>}
+                      <input placeholder="Finish prompt to generate an image" className="inline min-w-[260px] h-full text-center" {...register("prompt")} />
+                      {!hintLoading && hint.words && <span className="tracking-widest">
+                          {hint.words[1]}
+                        </span>}
+                    </div>
+                    <p className="text-red-600 text-sm text-center"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
                 <div className="flex justify-center w-full gap-2">
@@ -66,6 +108,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                 <div className="w-full">
                     {isLoading && <p className="w-full text-center">Generating Image...</p>}
                     {!isLoading && generatedImageUrl && 
+                      <div>
                         <div className="w-full flex justify-center">
                             <Image 
                                 height={382} 
@@ -75,6 +118,8 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                                 className="rounded-md border-2 border-white" 
                             />
                         </div>
+                        <GuessWord inputText={methods.watch('prompt')}/>
+                      </div>
                     }
                 </div>
             </div>
