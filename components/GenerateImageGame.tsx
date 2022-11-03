@@ -3,8 +3,9 @@ import { useForm, FormProvider, Controller } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Image from 'next/image'
+import Image from 'next/image';
 import GuessWord from "./GuessWords";
+import Spinner from "./Spinner";
 
 const schema = yup.object().shape({
   prompt: yup.string()
@@ -84,7 +85,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }, page) => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <div className="text-slate-400 w-full create-field bg-white flex gap-1 justify-center">
+                    <div className="text-slate-400 w-full prompt-field w-full bg-white flex gap-1 justify-center">
                       {!hintLoading && hint.words && <span className="tracking-widest">
                         {hint.words[0]}
                       </span>}
@@ -102,7 +103,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }, page) => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {!generatedImageUrl ? 'Generate your Image' : 'Try Generating Again?'}
+                        {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-black' />) : 'Try Generating Again?'}
                     </button>
                 </div>
                 <div className="w-full">

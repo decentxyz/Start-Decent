@@ -3,7 +3,8 @@ import { useForm, FormProvider } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Image from 'next/image'
+import Image from 'next/image';
+import Spinner from "./Spinner";
 
 const schema = yup.object().shape({
   prompt: yup.string().required('Prompt is required to generate an image.').min(10, 'Prompt must be at least 10 characters. The longer the prompt the better the image!'),
@@ -49,8 +50,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <p className="font-header">Prompt to Generate an Image</p>
-                    <input className="border border-black text-black w-full" {...register("prompt")} />
+                    <input placeholder="Enter a prompt to generate an image" className="border border-black text-black prompt-field w-full text-center" {...register("prompt")} />
                     <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
@@ -60,11 +60,10 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {!generatedImageUrl ? 'Generate your Image' : 'Try Generating Again?'}
+                        {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-black' />) : 'Try Generating Again?'}
                     </button>
                 </div>
                 <div className="w-full">
-                    {isLoading && <p className="w-full text-center">Generating Image...</p>}
                     {!isLoading && generatedImageUrl && 
                         <div className="w-full flex justify-center">
                             <Image 

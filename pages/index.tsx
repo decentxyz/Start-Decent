@@ -36,23 +36,25 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} font-medium`}>
           AI + web3 experiments
         </h1>
-        <div className='flex gap-16'>
-          <button className='text-xl font-bold hover:text-indigo-400' onClick={() => {setActive('NFTs'); setGeneratedImage(null)}}>
-            Create NFTs with AI
+        <div className='flex gap-16 py-4'>
+          <button className='text-xl font-bold hover:text-indigo-500' onClick={() => {setActive('NFTs'); setGeneratedImage(null)}}>
+            <span className={`${active === 'NFTs' && 'text-indigo-500 drop-shadow-md'}`}>Create NFTs with AI</span>
           </button>
-          <button className='text-xl font-bold hover:text-indigo-400' onClick={() => {setActive('Game'); setGeneratedImage(null)}}>
-            Play the game
+          <button className='text-xl font-bold hover:text-indigo-500' onClick={() => {setActive('Game'); setGeneratedImage(null)}}>
+          <span className={`${active === 'Game' && 'text-indigo-500 drop-shadow-md'}`}>Play the game</span>
           </button>
         </div>
         {active === 'NFTs' ? 
           <GenerateImage setGeneratedImage={setGeneratedImage} /> :
           <GenerateImageGame setGeneratedImage={setGeneratedImage} />
         }
-        {connected ?
-        <CreateNft generatedImage={generatedImage}/>
-        :
-        <p>Please Connect Your Wallet to Continue</p>
-        }
+        <div className='mt-8'>
+          {connected ?
+          <CreateNft generatedImage={generatedImage}/>
+          :
+          <p>Please Connect Your Wallet to Continue</p>
+          }
+        </div>
       </main>
 
       <footer className='py-8 border-t border-white text-white'>

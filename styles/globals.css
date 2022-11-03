@@ -66,8 +66,8 @@ h1 {
   padding: 10px 14px;
   gap: 8px;
 
-  width: 650px;
-  height: 44px;
+  width: 300px;
+  height: 40px;
 
   border: 1px solid #E4E3E7;
 
@@ -84,4 +84,70 @@ h1 {
   line-height: 24px;
 
   color: #2D2D32;
+}
+
+.prompt-field {
+  box-sizing: border-box;
+
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 8px;
+
+  height: 40px;
+
+  border: 1px solid #E4E3E7;
+
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+  border-radius: 48px;
+
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #2D2D32;
+}
+
+input:focus, textarea:focus {
+
+  border: .5px solid #6366F1;
+  outline:none;
+  
+  color: #6366F1;
+
+  box-shadow: 0px 0px 0px 2px #6366F1;
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+  }
+
+  ::-moz-selection { background-color: #fce7e7; 
+    color: #e60f0f; } 
+    ::selection { background-color: #fce7e7; 
+    color: #e60f0f; }
+
+
+.loading {
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+    /* transform: rotate(3deg); */
+    /* transform: rotate(0.3rad);/ */
+    /* transform: rotate(3grad); */ 
+    /* transform: rotate(.03turn);  */
+}
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }
