@@ -52,7 +52,7 @@ const Home: NextPage = () => {
           {connected ?
           <CreateNft generatedImage={generatedImage}/>
           :
-          <p>Please Connect Your Wallet to Continue</p>
+          generatedImage && <p>Please Connect Your Wallet to Continue</p>
           }
         </div>
       </main>
