@@ -1,21 +1,13 @@
-import { useEffect, useState } from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Image from 'next/image'
+import Image from 'next/image';
+import Spinner from "./Spinner";
 
 const schema = yup.object().shape({
-  prompt: yup.string()
-    .required('Prompt is required to generate an image.')
-    .min(20, 'Prompt must be at least 20 characters. Too short isnt enough of a challenge!')
-    .test('4_word_minimum', 'Prompt must contain at least four words.', (value) => {
-      if (value) {
-        const words = value.split(' ');
-        return words.length >= 4;
-      }
-      return false;
-    }),
+  prompt: yup.string().required('Prompt is required to generate an image.').min(10, 'Prompt must be at least 10 characters. The longer the prompt the better the image!'),
 });
 
 type FormData = {
@@ -35,6 +27,7 @@ const GenerateImage: React.FC<any> = () => {
   const [generatedImageUrl, setGeneratedImageUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const method = "normal";
   const generateImage = async (prompt: string) => {
     setIsLoading(true);
     try {
@@ -55,8 +48,8 @@ const GenerateImage: React.FC<any> = () => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <input placeholder="Generate your image" className="create-field text-slate-400 bg-white" {...register("prompt")} />
-                    <p className="text-red-600 text-sm text-center"><ErrorMessage errors={errors} name="prompt" /></p>
+                    <input placeholder="Enter a prompt to generate an image" className="border border-black text-black prompt-field w-full text-center" {...register("prompt")} />
+                    <p className="text-red-600 text-sm"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
                 <div className="flex justify-center w-full gap-2">
@@ -65,13 +58,11 @@ const GenerateImage: React.FC<any> = () => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {!generatedImageUrl ? 'Generate your Image' : 'Generate again'}
+                        {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-black' />) : 'Try Generating Again?'}
                     </button>
                 </div>
                 <div className="w-full">
-                    {isLoading && <p className="w-full text-center">Generating Image...</p>}
                     {!isLoading && generatedImageUrl && 
-                      <div>
                         <div className="w-full flex justify-center">
                             <Image 
                                 height={382} 
@@ -81,7 +72,6 @@ const GenerateImage: React.FC<any> = () => {
                                 className="rounded-md border-2 border-white" 
                             />
                         </div>
-                      </div>
                     }
                 </div>
             </div>

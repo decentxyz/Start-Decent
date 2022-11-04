@@ -34,14 +34,14 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} font-medium pt-16`}>
           Create NFTs with DALLE-2
         </h1>
-        
         <GenerateImage setGeneratedImage={setGeneratedImage} />
-        {/* causing hydration error */}
-        {connected ?
-        <CreateNft generatedImage={generatedImage}/>
-        :
-        <p>Please Connect Your Wallet to Continue</p>
-        }
+        <div className='mt-8'>
+          {connected ?
+          <CreateNft generatedImage={generatedImage}/>
+          :
+          generatedImage && <p>Please Connect Your Wallet to Continue</p>
+          }
+        </div>
       </main>
 
       <footer className='py-8 border-t border-white text-white'>

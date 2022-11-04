@@ -4,6 +4,7 @@ const loadImage = async (ipfsUri: any) => {
   const response = await fetch(ipfsUri);
   const blob = await response.blob();
   const file = new File([blob], "image", { type: blob.type });
+  console.log("blob", blob)
   return file;
 };
 
@@ -19,7 +20,7 @@ const getDeploymentMetadata = async ({
   // tags = null,
   // credits = null,
   // attributes = null,
-  project = null,
+  // project = null,
   // artist = null,
   // genre = null,
   // recordLabel = null,
@@ -49,7 +50,7 @@ const getDeploymentMetadata = async ({
     // tags,
     // credits,
     // attributes,
-    project,
+    // project,
     // artist,
     // genre,
     // recordLabel,
@@ -105,17 +106,18 @@ const getDeploymentMetadata = async ({
   if (!metadata.image) {
     metadata.image = await loadImage(image.preview);
   }
-  if (metadata?.project?.artwork.uri) {
-    if (metadata.project.artwork.uri.raw) {
-      metadata.project.artwork.mimeType = metadata.project.artwork.uri.raw.type;
-      metadata.project.artwork.uri = metadata.project.artwork.uri.raw;
-    } else {
-      const response = await loadImage(metadata.project.artwork.uri.preview);
-      metadata.project.artwork.uri = response;
-      metadata.project.artwork.mimeType = response.type;
-    }
-  }
+  // if (metadata?.project?.artwork.uri) {
+  //   if (metadata.project.artwork.uri.raw) {
+  //     metadata.project.artwork.mimeType = metadata.project.artwork.uri.raw.type;
+  //     metadata.project.artwork.uri = metadata.project.artwork.uri.raw;
+  //   } else {
+  //     const response = await loadImage(metadata.project.artwork.uri.preview);
+  //     metadata.project.artwork.uri = response;
+  //     metadata.project.artwork.mimeType = response.type;
+  //   }
+  // }
   const ipfsHash = await ipfs.createMetadata(metadata);
+  console.log("getting metadata")
   return ipfsHash;
 };
 
