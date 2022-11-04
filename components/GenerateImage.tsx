@@ -1,22 +1,13 @@
-import { useEffect, useState } from "react";
-import { useForm, FormProvider, Controller } from "react-hook-form";
+import { useState } from "react";
+import { useForm, FormProvider } from "react-hook-form";
 import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import Image from 'next/image'
+import Image from 'next/image';
 import Spinner from "./Spinner";
 
 const schema = yup.object().shape({
-  prompt: yup.string()
-    .required('Prompt is required to generate an image.')
-    .min(20, 'Prompt must be at least 20 characters. Too short isnt enough of a challenge!')
-    .test('4_word_minimum', 'Prompt must contain at least four words.', (value) => {
-      if (value) {
-        const words = value.split(' ');
-        return words.length >= 4;
-      }
-      return false;
-    }),
+  prompt: yup.string().required('Prompt is required to generate an image.').min(10, 'Prompt must be at least 10 characters. The longer the prompt the better the image!'),
 });
 
 type FormData = {
@@ -36,6 +27,7 @@ const GenerateImage: React.FC<any> = () => {
   const [generatedImageUrl, setGeneratedImageUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const method = "normal";
   const generateImage = async (prompt: string) => {
     setIsLoading(true);
     try {

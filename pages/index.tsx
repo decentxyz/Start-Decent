@@ -34,13 +34,14 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} pt-16 text-black`}>
           Creative Permanence
         </h1>
-        
         <GenerateImage setGeneratedImage={setGeneratedImage} />
-        {connected ?
-        <CreateNft generatedImage={generatedImage}/>
-        :
-        <p>Please Connect Your Wallet to Continue</p>
-        }
+        <div className='mt-8'>
+          {connected ?
+          <CreateNft generatedImage={generatedImage}/>
+          :
+          generatedImage && <p>Please Connect Your Wallet to Continue</p>
+          }
+        </div>
       </main>
 
       <footer className='py-8 border-t border-white'>

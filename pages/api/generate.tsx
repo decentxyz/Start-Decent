@@ -12,7 +12,6 @@ const openai = new OpenAIApi(configuration);
  */
 export default async function handler(nextReq: NextApiRequest, nextRes: NextApiResponse) {
     const prompt = nextReq.query.prompt as string || 'DJ playing music on turntables to a crowd of people dancing, bright and colorful.';
-
     try {
         const response = await openai.createImage({
           prompt: prompt,
@@ -25,5 +24,4 @@ export default async function handler(nextReq: NextApiRequest, nextRes: NextApiR
         console.error(e);
         nextRes.status(500).send(e);
       }
-
   }
