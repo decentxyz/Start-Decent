@@ -48,8 +48,8 @@ const Home: NextPage = () => {
         <div>
         <p className='flex justify-center pb-4 text-xl'>🤝 Prompt Arist</p>
         <div className='flex items-center justify-center text-xl'>
-          <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer">
-            <Image src='/images/stability.png' height={24} width={24} alt='Decent 💪' />
+          <a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer">
+            <Image src='/images/openai.png' height={24} width={24} alt='Open AI' className='rounded-full overflow-hidden' />
           </a>
           <span className='px-2 pb-1'>✘</span>
           <a href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
