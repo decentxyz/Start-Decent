@@ -31,12 +31,11 @@ const Home: NextPage = () => {
 
       <main className={styles.main}>
 
-        <h1 className={`${styles.title} font-medium pt-16`}>
-          Create NFTs with DALLE-2
+        <h1 className={`${styles.title} pt-16 text-black`}>
+          Creative Permanence
         </h1>
         
         <GenerateImage setGeneratedImage={setGeneratedImage} />
-        {/* causing hydration error */}
         {connected ?
         <CreateNft generatedImage={generatedImage}/>
         :
@@ -44,16 +43,16 @@ const Home: NextPage = () => {
         }
       </main>
 
-      <footer className='py-8 border-t border-white text-white'>
+      <footer className='py-8 border-t border-white'>
         <div>
-        <p className='flex justify-center pb-4 text-xl'>🤝 Prompt Arist</p>
+        <p className='flex justify-center pb-4 text-base tracking-widest uppercase'>You&apos;re Now A Prompt Arist</p>
         <div className='flex items-center justify-center text-xl'>
           <a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer">
             <Image src='/images/openai.png' height={24} width={24} alt='Open AI' className='rounded-full overflow-hidden' />
           </a>
-          <span className='px-2 pb-1'>✘</span>
+          <span className='px-2 pb-1'>X</span>
           <a href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
-            <Image src='/images/icon.png' height={24} width={24} alt='Decent 💪' />
+            <Image src='/images/icon2.png' height={24} width={24} alt='Decent 💪' />
           </a>
         </div>
         </div>

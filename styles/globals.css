@@ -15,19 +15,15 @@ a {
   text-decoration: none;
 }
 
-* {
-  box-sizing: border-box;
-}
-
 .background {
-  background-color: #111827;
+  background-color: #eae8e8;
   background-image:
-      radial-gradient(farthest-side at -20% 50%, rgba(115, 15, 230, 0.7) 0, transparent 50%),
-      radial-gradient(farthest-corner at 120% 120%, rgba(115, 15, 230, 0.7) 0, transparent 40%);
+      radial-gradient(farthest-side at -20% 10%, rgba(78, 78, 78, 0.7) 0, transparent 50%),
+      radial-gradient(farthest-corner at 120% 120%, rgba(0, 0, 0, 0.7) 0, transparent 40%);
 }
 
 h1 {
-  @apply text-3xl font-medium
+  @apply tracking-widest font-[400] uppercase
 }
 
 .diplay-wallet {
@@ -46,7 +42,6 @@ h1 {
   background: #FFFFFF;
 
   box-shadow: 0px 10px 20px 5px rgba(218, 217, 227, 0.31);
-  border-radius: 12px;
 
   font-style: normal;
   font-weight: 400;
@@ -56,10 +51,6 @@ h1 {
 }
 
 .create-field {
-  box-sizing: border-box;
-
-  /* Auto layout */
-
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -69,10 +60,7 @@ h1 {
   width: 650px;
   height: 44px;
 
-  border: 1px solid #E4E3E7;
-
   filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
-  border-radius: 48px;
 
   flex: none;
   align-self: stretch;
@@ -84,4 +72,63 @@ h1 {
   line-height: 24px;
 
   color: #2D2D32;
+}
+
+.hard-shadow {
+  box-shadow: 0.5rem 0.5rem rgba(0, 0, 0, 0.5), -0.5rem -0.5rem rgba(124, 55, 243, 0.5);
+}
+
+.prompt-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 14px;
+  gap: 8px;
+
+  height: 40px;
+
+  filter: drop-shadow(0px 1px 2px rgba(16, 24, 40, 0.05));
+
+  flex: none;
+  align-self: stretch;
+  flex-grow: 0;
+
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #2D2D32;
+}
+
+input:focus, textarea:focus {
+
+  color: #ffffff;
+  background-color: #000000;
+
+  }
+
+  ::-moz-selection { background-color: #ffffff; 
+    color: #000000; } 
+    ::selection { background-color: #fffefe; 
+    color: #000000; }
+
+
+.loading {
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+    /* transform: rotate(3deg); */
+    /* transform: rotate(0.3rad);/ */
+    /* transform: rotate(3grad); */ 
+    /* transform: rotate(.03turn);  */
+}
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }

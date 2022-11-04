@@ -4,6 +4,7 @@ import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from 'next/image'
+import Spinner from "./Spinner";
 
 const schema = yup.object().shape({
   prompt: yup.string()
@@ -53,32 +54,31 @@ const GenerateImage: React.FC<any> = () => {
     <div className="w-full">
     <FormProvider {...methods}>
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
-            <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
+            <div className="flex flex-wrap items-center justify-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <input placeholder="Generate your image" className="create-field text-slate-400 bg-white" {...register("prompt")} />
+                    <input placeholder="Enter a prompt to generate an image" className="text-center create-field tracking-widest font-[500] bg-white" {...register("prompt")} />
                     <p className="text-red-600 text-sm text-center"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
-                <div className="flex justify-center w-full gap-2">
+                <div className="mt-2">
                     <button 
-                        className="p-3 flex gap-4 items-center bg-white rounded-md border-gray-500 hover:bg-gray-200 active:bg-gray-400 text-black font-bold"
+                        className="p-3 flex gap-4 items-center bg-black text-white border-gray-500 hover:bg-gray-800 active:bg-gray-800 tracking-widest uppercase"
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {!generatedImageUrl ? 'Generate your Image' : 'Generate again'}
+                         {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-black' />) : 'Try Generating Again?'}
                     </button>
                 </div>
-                <div className="w-full">
-                    {isLoading && <p className="w-full text-center">Generating Image...</p>}
+                <div className="w-full mt-8">
                     {!isLoading && generatedImageUrl && 
                       <div>
-                        <div className="w-full flex justify-center">
+                        <div className="flex justify-center">
                             <Image 
                                 height={382} 
                                 width={382} 
                                 src={generatedImageUrl} 
                                 alt='Generated image from user prompt'
-                                className="rounded-md border-2 border-white" 
+                                className="rounded-md hard-shadow" 
                             />
                         </div>
                       </div>

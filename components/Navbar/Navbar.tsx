@@ -32,9 +32,13 @@ const Navbar = ({ darkMode }: NavbarProps) => {
 
   return (
     <>
-      <nav className={`${styles.navbar} ${darkMode && styles.darkMode} flex justify-between items-center`} >
-        <Image width={60} height={60} src="/images/ai-robot.png" alt="icon" />
-        {/* <NavItem href="/" openInNewTab>Dashboard</NavItem> */}
+      <nav className={`${styles.navbar} ${darkMode && styles.darkMode} flex justify-between items-center`} > 
+        <div className="flex items-center justify-center">
+          <Image width={40} height={40} src="/images/ai-robot.png" alt="icon" />
+          <NavItem href="https://decent.xyz" openInNewTab>DECENT</NavItem>
+          X
+          <NavItem href="https://openai.com/dall-e-2/" openInNewTab>DALL·E 2</NavItem>
+        </div>
         <ConnectButton />
       </nav>
     </>
