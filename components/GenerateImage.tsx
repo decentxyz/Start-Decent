@@ -4,7 +4,6 @@ import { ErrorMessage } from '@hookform/error-message';
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import Image from 'next/image'
-import GuessWord from "./GuessWords";
 
 const schema = yup.object().shape({
   prompt: yup.string()
@@ -23,7 +22,7 @@ type FormData = {
   prompt: string;
 };
 
-const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
+const GenerateImage: React.FC<any> = () => {
   const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -35,41 +34,14 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
 
   const [generatedImageUrl, setGeneratedImageUrl] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [hint, setHint] = useState<any>({});
-  const [hintLoading, setHintLoading] = useState(false);
-
-  useEffect(() => {
-    const getHint = async () => {
-      setHintLoading(true);
-      try {
-        const response = await fetch('/api/secretWords/hint');
-        const data = await response.json();
-        const words: string[] = data.wordLengths
-          .map((l: number) => Array.from(Array(l).keys()).map(() => '*').join('') )
-          // If we passed the `data.lastLetter` array, this would show the letter
-          .map((w: string, i: number) => !!data.lastLetter ? `${w.substring(0, w.length-1)}${data.lastLetter[i]}` : w)
-        setHint({
-          ...data,
-          words
-        });
-        setHintLoading(false);
-      } catch (error) {
-        console.error(error);
-        setHintLoading(false);
-      }
-    }
-    getHint();
-  }, []);
 
   const generateImage = async (prompt: string) => {
     setIsLoading(true);
     try {
-        console.log(`Generating image with prompt: ${prompt}`);
         const res = await fetch(`/api/generate?prompt=${prompt}`)
-        const blob = await res.blob()
-        const imageObjectURL = URL.createObjectURL(blob);
-        setGeneratedImageUrl(imageObjectURL);
-        setGeneratedImage(blob);
+        const data = await res.json();
+        console.log(data.image_url);
+        setGeneratedImageUrl(data.image_url);
         setIsLoading(false);
     } catch (error) {
         console.error(error);
@@ -83,15 +55,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <div className="text-slate-400 w-full create-field bg-white flex gap-1 justify-center">
-                      {!hintLoading && hint.words && <span className="tracking-widest">
-                        {hint.words[0]}
-                      </span>}
-                      <input placeholder="Finish prompt to generate an image" className="inline min-w-[260px] h-full text-center" {...register("prompt")} />
-                      {!hintLoading && hint.words && <span className="tracking-widest">
-                          {hint.words[1]}
-                        </span>}
-                    </div>
+                    <input placeholder="Generate your image" className="create-field text-slate-400 bg-white" {...register("prompt")} />
                     <p className="text-red-600 text-sm text-center"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
@@ -101,7 +65,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                        {!generatedImageUrl ? 'Generate your Image' : 'Try Generating Again?'}
+                        {!generatedImageUrl ? 'Generate your Image' : 'Generate again'}
                     </button>
                 </div>
                 <div className="w-full">
@@ -117,7 +81,6 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                                 className="rounded-md border-2 border-white" 
                             />
                         </div>
-                        <GuessWord inputText={methods.watch('prompt')}/>
                       </div>
                     }
                 </div>

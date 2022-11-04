@@ -24,15 +24,15 @@ const Home: NextPage = () => {
         <title>AI NFTs</title>
         <meta
           name="description"
-          content='Create NFTs using stable diffusion.'
+          content='Create NFTs using DALLE in 2 clicks with Decent.'
         />
         <link rel="icon" href="/images/ai-robot.png" />
       </Head>
 
       <main className={styles.main}>
 
-        <h1 className={`${styles.title} font-medium`}>
-          Create NFTs with Stable Diffusion
+        <h1 className={`${styles.title} font-medium pt-16`}>
+          Create NFTs with DALLE-2
         </h1>
         
         <GenerateImage setGeneratedImage={setGeneratedImage} />
@@ -48,8 +48,8 @@ const Home: NextPage = () => {
         <div>
         <p className='flex justify-center pb-4 text-xl'>🤝 Prompt Arist</p>
         <div className='flex items-center justify-center text-xl'>
-          <a href="https://stability.ai/" target="_blank" rel="noopener noreferrer">
-            <Image src='/images/stability.png' height={24} width={24} alt='Decent 💪' />
+          <a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer">
+            <Image src='/images/openai.png' height={24} width={24} alt='Open AI' className='rounded-full overflow-hidden' />
           </a>
           <span className='px-2 pb-1'>✘</span>
           <a href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
