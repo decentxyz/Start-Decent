@@ -24,15 +24,15 @@ const Home: NextPage = () => {
         <title>AI NFTs</title>
         <meta
           name="description"
-          content='Create NFTs using stable diffusion.'
+          content='Create NFTs using DALLE in 2 clicks with Decent.'
         />
         <link rel="icon" href="/images/ai-robot.png" />
       </Head>
 
       <main className={styles.main}>
 
-        <h1 className={`${styles.title} font-medium`}>
-          Create NFTs with Stable Diffusion
+        <h1 className={`${styles.title} font-medium pt-16`}>
+          Create NFTs with DALLE-2
         </h1>
         
         <GenerateImage setGeneratedImage={setGeneratedImage} />

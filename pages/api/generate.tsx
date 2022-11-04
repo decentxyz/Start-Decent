@@ -1,37 +1,27 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { generateAsync, generate } from 'stability-client'
-import { SECRET_WORDS } from "./secretWords/hint";
+import { Configuration, OpenAIApi } from "openai";
 
-const DREAMSTUDIO_API_KEY = process.env.DREAMSTUDIO_API_KEY || '';
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 /** 
- * Call `/api/text-to-image?promp=<your-promp>` to generate an image.
- * Request params are hard coded for the time being.
- * Generation is fulfilled by the Stability SDK by stability.ai
+ * Call `/api/generate?promp=<your-promp>` to generate an image.
+ * Generation is fulfilled by the OpenAI DALLE API.
  */
 export default async function handler(nextReq: NextApiRequest, nextRes: NextApiResponse) {
     const prompt = nextReq.query.prompt as string || 'DJ playing music on turntables to a crowd of people dancing, bright and colorful.';
 
-    const promptWithSecretWords = `${SECRET_WORDS[0]} ${prompt} ${SECRET_WORDS[1]}`;
-
     try {
-        const { images }: any = await generateAsync({
-            prompt: promptWithSecretWords,
-            apiKey: DREAMSTUDIO_API_KEY,
-            height: 512,
-            width: 512,
-            diffusion: 'k_lms',
-            engine: 'stable-diffusion-v1',
-            outDir: './images',
-            steps: 300,
-            cfgScale: 7,
+        const response = await openai.createImage({
+          prompt: prompt,
+          n: 1,
+          size: "256x256",
         });
-        const image = images[0];
-        nextRes.setHeader('Content-Type', image.mimeType);
-        nextRes.send(image.buffer);
+        const image_url = response.data.data[0].url;
+        nextRes.status(200).json({ image_url, prompt});
       } catch (e) {
-        // ...
-        console.log('ERROR');
         console.error(e);
         nextRes.status(500).send(e);
       }
