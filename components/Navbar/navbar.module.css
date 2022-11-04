@@ -11,7 +11,6 @@
   min-height: 64px;
   background-color: rgba(255, 255, 255, .1);
   backdrop-filter: blur(8px);
-  justify-content: space-between;
   border-bottom: 1px solid rgb(229, 231, 235);
 }
 

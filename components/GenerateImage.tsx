@@ -14,7 +14,7 @@ type FormData = {
   prompt: string;
 };
 
-const GenerateImage: React.FC<any> = () => {
+const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
   const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -35,6 +35,7 @@ const GenerateImage: React.FC<any> = () => {
         const data = await res.json();
         console.log(data.image_url);
         setGeneratedImageUrl(data.image_url);
+        setGeneratedImage(data.image_url);
         setIsLoading(false);
     } catch (error) {
         console.error(error);
@@ -48,7 +49,7 @@ const GenerateImage: React.FC<any> = () => {
         <form onSubmit={onSubmit} className='gap-4 w-full flex justify-center px-4'>
             <div className="flex flex-wrap items-center justify-center gap-4 w-full max-w-2xl">
                 <div className="w-full">
-                    <input placeholder="Enter a prompt to generate an image" className="text-center create-field tracking-widest font-[500] bg-white" {...register("prompt")} />
+                    <input placeholder="Enter a prompt to generate an image" className="text-center text-white prompt-field tracking-widest font-[500] bg-white" {...register("prompt")} />
                     <p className="text-red-600 text-sm text-center"><ErrorMessage errors={errors} name="prompt" /></p>
                 </div>
 
@@ -58,7 +59,7 @@ const GenerateImage: React.FC<any> = () => {
                         type="submit"
                         disabled={isSubmitting}
                     >
-                         {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-black' />) : 'Try Generating Again?'}
+                         {!generatedImageUrl ? (!isLoading ? 'Generate your Image' : <Spinner height={28} width={28} color='text-white' />) : 'Try Generating Again?'}
                     </button>
                 </div>
                 <div className="w-full mt-8">
@@ -70,7 +71,7 @@ const GenerateImage: React.FC<any> = () => {
                                 width={382} 
                                 src={generatedImageUrl} 
                                 alt='Generated image from user prompt'
-                                className="rounded-md hard-shadow" 
+                                className="p-2 border border-black" 
                             />
                         </div>
                       </div>

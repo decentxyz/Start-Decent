@@ -121,11 +121,11 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit} className='gap-4 sm:mx-20 rounded-lg bg-white bg-opacity-10 drop-shadow-md p-8'>
+      <form onSubmit={onSubmit} className='gap-4 sm:mx-20 bg-black bg-opacity-10 drop-shadow-lg p-8 text-black tracking-widest font-[500]'>
         <div className="flex w-full justify-between items-center pb-8">
-          <p className="text-2xl font-medium">Turn Image into an NFT</p>
+          <p className="text-2xl">Turn Image into an NFT</p>
           <button onClick={() => resetForm()}>
-            <input type="reset" className="cursor-pointer text-xs"/>
+            <input type="reset" className="cursor-pointer tracking-widest font-[500] text-xs"/>
           </button>
         </div>
         <div className="flex items-center justify-center flex-wrap gap-8">
@@ -161,7 +161,7 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
         <div className="mt-8 flex justify-center">
           <div>
             <button className="w-full flex justify-center" type="button" onClick={() => deployFunction()}>
-              <input type="submit" className="cursor-pointer text-indigo-500 bg-white px-4 py-1 rounded-full"/>
+              <input type="submit" className="cursor-pointer tracking-widest font-[500] text-white bg-black px-4 py-1"/>
             </button>
             <p className="italic text-xs pt-4">{showLink ? `Edition created! Paste this into the blockscanner of your chain of choice to verify ${link}` : 'be patient, wallet confimration can take a sec'}</p>
           </div>

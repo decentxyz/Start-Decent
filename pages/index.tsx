@@ -26,11 +26,10 @@ const Home: NextPage = () => {
           name="description"
           content='Create NFTs using DALLE in 2 clicks with Decent.'
         />
-        <link rel="icon" href="/images/ai-robot.png" />
+        <link rel="icon" href="/images/favi.png" />
       </Head>
 
       <main className={styles.main}>
-
         <h1 className={`${styles.title} pt-16 text-black`}>
           Creative Permanence
         </h1>

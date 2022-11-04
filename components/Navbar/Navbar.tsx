@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import Image from "next/image";
-import React, { useState } from 'react';
 
 import styles from "./navbar.module.css";
 
@@ -16,13 +15,12 @@ interface NavItemProps {
 }
 
 const Navbar = ({ darkMode }: NavbarProps) => {
-  const [menuOpen, setMenuOpen] = useState(false);
 
   function NavItem({ href, openInNewTab, children }: NavItemProps): JSX.Element {
     return (
       <Link passHref href={href} target={openInNewTab ? "_blank" : undefined} rel={openInNewTab ? "noreferrer" : undefined}>
         <p
-          className={`${menuOpen ? 'block' : 'hidden'} md:block uppercase tracking-widest font-[500] text-base hover:text-primary p-2`}
+          className={`uppercase tracking-widest font-[500] text-base hover:text-black text-white p-2`}
         >
           {children}
         </p>
@@ -32,11 +30,11 @@ const Navbar = ({ darkMode }: NavbarProps) => {
 
   return (
     <>
-      <nav className={`${styles.navbar} ${darkMode && styles.darkMode} flex justify-between items-center`} > 
+      <nav className={`${styles.navbar} ${darkMode && styles.darkMode} w-full flex flex-wrap items-center sm:justify-between justify-center`} > 
         <div className="flex items-center justify-center">
-          <Image width={40} height={40} src="/images/ai-robot.png" alt="icon" />
+          <NavItem href="https://github.com/cdsiren/ai-generated-nfts" openInNewTab><Image width={20} height={20} src="/images/github-icon.png" alt="icon" /></NavItem>
           <NavItem href="https://decent.xyz" openInNewTab>DECENT</NavItem>
-          X
+            X
           <NavItem href="https://openai.com/dall-e-2/" openInNewTab>DALL·E 2</NavItem>
         </div>
         <ConnectButton />
