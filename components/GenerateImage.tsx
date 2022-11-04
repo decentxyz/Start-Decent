@@ -14,7 +14,7 @@ type FormData = {
   prompt: string;
 };
 
-const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
+const GenerateImage: React.FC<any> = () => {
   const methods = useForm<FormData>({
     resolver: yupResolver(schema),
   });
@@ -31,12 +31,10 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
   const generateImage = async (prompt: string) => {
     setIsLoading(true);
     try {
-        console.log(`Generating image with prompt: ${prompt}`);
-        const res = await fetch(`/api/generate?method=${method}&prompt=${prompt}`)
-        const blob = await res.blob()
-        const imageObjectURL = URL.createObjectURL(blob);
-        setGeneratedImageUrl(imageObjectURL);
-        setGeneratedImage(blob);
+        const res = await fetch(`/api/generate?prompt=${prompt}`)
+        const data = await res.json();
+        console.log(data.image_url);
+        setGeneratedImageUrl(data.image_url);
         setIsLoading(false);
     } catch (error) {
         console.error(error);
@@ -74,6 +72,7 @@ const GenerateImage: React.FC<any> = ({ setGeneratedImage }) => {
                                 className="rounded-md border-2 border-white" 
                             />
                         </div>
+                      </div>
                     }
                 </div>
             </div>
