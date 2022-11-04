@@ -72,7 +72,6 @@ const GenerateImage: React.FC<any> = () => {
                                 className="rounded-md border-2 border-white" 
                             />
                         </div>
-                      </div>
                     }
                 </div>
             </div>
