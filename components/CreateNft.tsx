@@ -117,7 +117,7 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
   }
 
 
-  // if (!generatedImage) return null
+  if (!generatedImage) return null
 
   return (
     <FormProvider {...methods}>

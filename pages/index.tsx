@@ -5,7 +5,6 @@ import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import CreateNft from '../components/CreateNft';
 import GenerateImage from '../components/GenerateImage';
-import GenerateImageGame from '../components/GenerateImageGame';
 import { useNetwork } from 'wagmi';
 
 const Home: NextPage = () => {
@@ -13,7 +12,6 @@ const Home: NextPage = () => {
 
   const { chain } = useNetwork();
   const [connected, setConnected] = useState(false);
-  const [active, setActive] = useState('NFTs');
 
   useEffect(() => {
     chain && setConnected(true)
@@ -36,18 +34,7 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} font-medium`}>
           AI + web3 experiments
         </h1>
-        <div className='flex gap-16 py-4'>
-          <button className='text-xl font-bold hover:text-indigo-500' onClick={() => {setActive('NFTs'); setGeneratedImage(null)}}>
-            <span className={`${active === 'NFTs' && 'text-indigo-500 drop-shadow-md'}`}>Create NFTs with AI</span>
-          </button>
-          <button className='text-xl font-bold hover:text-indigo-500' onClick={() => {setActive('Game'); setGeneratedImage(null)}}>
-          <span className={`${active === 'Game' && 'text-indigo-500 drop-shadow-md'}`}>Play the game</span>
-          </button>
-        </div>
-        {active === 'NFTs' ? 
-          <GenerateImage setGeneratedImage={setGeneratedImage} /> :
-          <GenerateImageGame setGeneratedImage={setGeneratedImage} />
-        }
+        <GenerateImage setGeneratedImage={setGeneratedImage} />
         <div className='mt-8'>
           {connected ?
           <CreateNft generatedImage={generatedImage}/>
