@@ -1,22 +1,48 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import CreateNft from '../components/CreateNft';
 import GenerateImage from '../components/GenerateImage';
-import { useNetwork } from 'wagmi';
+import { useNetwork, useAccount } from 'wagmi';
+import setAllowList from '../lib/setAllowList';
 
 const Home: NextPage = () => {
   const [generatedImage, setGeneratedImage] = useState<any>(null);
-
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const [connected, setConnected] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const displayMessage = useCallback(() => {
+    if (connected && allowed) {
+      setMessage('true')
+    }
+    else if (!connected && allowed) {
+      setMessage('Please connect your wallet to continue.')
+    } 
+    else if (connected && !allowed) {
+      setMessage('You must have a Mint Podcast Season 6 Listener Badge to continue.')
+    }
+    else setMessage('Please connect your wallet to continue.')
+  }, [connected, allowed]);
+
+  // need collectors to load before the next if statement
+  const checkAllowed = useCallback(async () => {
+    let collectors:any = await setAllowList();
+    if (collectors.owners.indexOf(address) !== -1) {
+      setAllowed(true);
+    }
+  }, [address]) 
 
   useEffect(() => {
-    chain && setConnected(true)
-  }, [chain])
-  
+    chain && setConnected(true);
+    checkAllowed();
+    displayMessage();
+    console.log("connectd",connected, "allow",allowed)
+  }, [chain, checkAllowed, displayMessage, allowed, connected,])
 
   return (
     <div className={`${styles.container} background`}>
@@ -24,7 +50,7 @@ const Home: NextPage = () => {
         <title>AI NFTs</title>
         <meta
           name="description"
-          content='Create NFTs using DALLE in 2 clicks with Decent.'
+          content='Create NFTs using DALL·E 2 in 3 clicks with Decent.'
         />
         <link rel="icon" href="/images/favi.png" />
       </Head>
@@ -33,12 +59,15 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} pt-16 text-black`}>
           Creative Permanence
         </h1>
-        <GenerateImage setGeneratedImage={setGeneratedImage} />
+        {message === 'true' ?
+          <GenerateImage setGeneratedImage={setGeneratedImage} />
+          : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}</p>
+        }
         <div className='mt-8'>
           {connected ?
           <CreateNft generatedImage={generatedImage}/>
           :
-          generatedImage && <p>Please Connect Your Wallet to Continue</p>
+          generatedImage && <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>Please Connect Your Wallet to Continue</p>
           }
         </div>
       </main>

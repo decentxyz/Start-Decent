@@ -8,6 +8,7 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import getDeploymentMetadata from "../lib/getDeploymentMetadata";
 import InfoField from "./InfoField";
+import Image from "next/image";
 
 const schema = yup.object().shape({
   collectionName: yup.string()
@@ -51,14 +52,21 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
     clearErrors();
   }
 
+  const loadImage = () => {
+    const blob = generatedImage.blob();
+    const file = new File([blob], "image", { type: blob.type });
+    console.log("blob", blob, "file", file);
+    return file
+  }
+
   const getMetadata = async () => {
-    const ipfsHash = await getDeploymentMetadata({
-      image: generatedImage,
+    const ipfsHash = ipfs.createMetadata({
+      image: loadImage(),
       name: getValues("collectionName"),
-      description: "Created with the Decent Protocol and Stable Diffusion",
+      description: "Created with the Decent Protocol and DALL·E 2",
       title: getValues("collectionName"),
     })
-    console.log("image", generatedImage)
+    console.log("ipfs", ipfsHash)
     return ipfsHash
   }
 
@@ -116,14 +124,13 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
     }
   }
 
-
   if (!generatedImage) return null
 
   return (
     <FormProvider {...methods}>
-      <form onSubmit={onSubmit} className='gap-4 sm:mx-20 bg-black bg-opacity-10 drop-shadow-lg p-8 text-black tracking-widest font-[500]'>
+      <form onSubmit={onSubmit} className='gap-4 sm:mx-20 bg-black bg-opacity-10 drop-shadow-lg p-8 text-black tracking-widest font-[400]'>
         <div className="flex w-full justify-between items-center pb-8">
-          <p className="text-2xl">Turn Image into an NFT</p>
+          <p className="text-2xl">Deploy NFT</p>
           <button onClick={() => resetForm()}>
             <input type="reset" className="cursor-pointer tracking-widest font-[500] text-xs"/>
           </button>
@@ -164,6 +171,17 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
               <input type="submit" className="cursor-pointer tracking-widest font-[500] text-white bg-black px-4 py-1"/>
             </button>
             <p className="italic text-xs pt-4">{showLink ? `Edition created! Paste this into the blockscanner of your chain of choice to verify ${link}` : 'be patient, wallet confimration can take a sec'}</p>
+
+            <a 
+              className="text-white mt-2" 
+              href={`https://twitter.com/intent/tweet?text=This NFT was made with AI ${generatedImage}`}
+              target="_blank" 
+              rel="noreferrer">
+              <span className="flex items-center justify-center bg-black gap-2 px-1 tracking-widest font-[400]">
+                Share NFT
+                <Image src='/images/twitter.png' height={14} width={14} alt="twitter"/>
+              </span>
+            </a>
           </div>
         </div>
       </form>
