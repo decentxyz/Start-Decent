@@ -6,6 +6,7 @@ import { chain, configureChains, createClient, WagmiConfig } from 'wagmi';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 import Navbar from '../components/Navbar/Navbar';
+import { Analytics } from "@vercel/analytics/react";
 
 
 const { chains, provider, webSocketProvider } = configureChains(
@@ -51,6 +52,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           })} chains={chains}>
         <Navbar darkMode />
         <Component {...pageProps} />
+        <Analytics />
       </RainbowKitProvider>
     </WagmiConfig>
   );
