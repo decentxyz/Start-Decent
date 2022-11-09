@@ -1,22 +1,48 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
 import CreateNft from '../components/CreateNft';
 import GenerateImage from '../components/GenerateImage';
-import { useNetwork } from 'wagmi';
+import { useNetwork, useAccount } from 'wagmi';
+import setAllowList from '../lib/setAllowList';
 
 const Home: NextPage = () => {
   const [generatedImage, setGeneratedImage] = useState<any>(null);
-
   const { chain } = useNetwork();
+  const { address } = useAccount();
   const [connected, setConnected] = useState(false);
+  const [allowed, setAllowed] = useState(false);
+  const [message, setMessage] = useState('');
+
+  const displayMessage = useCallback(() => {
+    if (connected && allowed) {
+      setMessage('true')
+    }
+    else if (!connected && allowed) {
+      setMessage('Please connect your wallet to continue.')
+    } 
+    else if (connected && !allowed) {
+      setMessage('You must have a Mint Podcast Season 6 Listener Badge to continue.')
+    }
+    else setMessage('Please connect your wallet to continue.')
+  }, [connected, allowed]);
+
+  // need collectors to load before the next if statement
+  const checkAllowed = useCallback(async () => {
+    let collectors:any = await setAllowList();
+    if (collectors.owners.indexOf(address) !== -1) {
+      setAllowed(true);
+    }
+  }, [address]) 
 
   useEffect(() => {
-    chain && setConnected(true)
-  }, [chain])
-  
+    chain && setConnected(true);
+    checkAllowed();
+    displayMessage();
+    console.log("connectd",connected, "allow",allowed)
+  }, [chain, checkAllowed, displayMessage, allowed, connected,])
 
   return (
     <div className={`${styles.container} background`}>
@@ -24,22 +50,25 @@ const Home: NextPage = () => {
         <title>AI NFTs</title>
         <meta
           name="description"
-          content='Create NFTs using DALLE in 2 clicks with Decent.'
+          content='Create NFTs using DALL·E 2 in 3 clicks with Decent.'
         />
-        <link rel="icon" href="/images/favi.png" />
+        <link rel="icon" href="/images/icon.png" />
       </Head>
 
       <main className={styles.main}>
         <h1 className={`${styles.title} pt-16 text-black`}>
-          Creative Permanence
+          Create NFTs using DALL·E 2
         </h1>
-        <GenerateImage setGeneratedImage={setGeneratedImage} />
+        {message === 'true' ?
+          <GenerateImage setGeneratedImage={setGeneratedImage} />
+          : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}{connected && !allowed && <span> Claim on <a className='text-indigo-500 cursor-pointer'>here</a></span>}</p>
+        }
         <div className='mt-8'>
           {connected ?
           // <CreateNft generatedImage={generatedImage}/>
           generatedImage && <p>NFT Minting Coming Soon...</p>
           :
-          generatedImage && <p>Please Connect Your Wallet to Continue</p>
+          generatedImage && <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>Please Connect Your Wallet to Continue</p>
           }
         </div>
       </main>
@@ -48,12 +77,12 @@ const Home: NextPage = () => {
         <div>
         <p className='flex justify-center pb-4 text-base tracking-widest uppercase'>You&apos;re Now A Prompt Arist</p>
         <div className='flex items-center justify-center text-xl'>
-          <a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer">
-            <Image src='/images/openai.png' height={24} width={24} alt='Open AI' className='rounded-full overflow-hidden' />
-          </a>
-          <span className='px-2 pb-1'>X</span>
           <a href="https://decent.xyz" target="_blank" rel="noopener noreferrer">
             <Image src='/images/icon2.png' height={24} width={24} alt='Decent 💪' />
+          </a>
+          <span className='px-2 pb-1'>X</span>
+          <a href="https://openai.com/api/" target="_blank" rel="noopener noreferrer">
+            <Image src='/images/openai.png' height={24} width={24} alt='Open AI' className='rounded-full overflow-hidden' />
           </a>
         </div>
         </div>
