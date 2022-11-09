@@ -7,6 +7,8 @@ import CreateNft from '../components/CreateNft';
 import GenerateImage from '../components/GenerateImage';
 import { useNetwork, useAccount } from 'wagmi';
 import setAllowList from '../lib/setAllowList';
+// import SetAllowList from '../lib/SetAllowList';
+import * as ethers from "ethers"
 
 const Home: NextPage = () => {
   const [generatedImage, setGeneratedImage] = useState<any>(null);
@@ -15,6 +17,8 @@ const Home: NextPage = () => {
   const [connected, setConnected] = useState(false);
   const [allowed, setAllowed] = useState(false);
   const [message, setMessage] = useState('');
+  const [collectors, setCollectors] = useState([]);
+  
 
   const displayMessage = useCallback(() => {
     if (connected && allowed) {
@@ -30,19 +34,30 @@ const Home: NextPage = () => {
   }, [connected, allowed]);
 
   // need collectors to load before the next if statement
-  const checkAllowed = useCallback(async () => {
-    let collectors:any = await setAllowList();
-    if (collectors.owners.indexOf(address) !== -1) {
-      setAllowed(true);
-    }
-  }, [address]) 
+  // const checkAllowed = useCallback( () => {
+  //   setAllowList(setCollectors);
+  //   let lookUp:string = address || " ";
+  //   if (collectors.indexOf(lookUp) !== -1) {
+  //     setAllowed(true);
+  //   }
+  // }, [address, collectors])
+
+  const checkAllowed = () => {
+    let collectors = setAllowList()
+    //   .then(() => {
+    //     if (collectors.indexOf(address) !== -1) {
+    //       setAllowed(true)
+    //     }
+    // })
+    console.log(allowed)
+  }
 
   useEffect(() => {
     chain && setConnected(true);
     checkAllowed();
     displayMessage();
     console.log("connectd",connected, "allow",allowed)
-  }, [chain, checkAllowed, displayMessage, allowed, connected,])
+  }, [chain, displayMessage, allowed, connected,])
 
   return (
     <div className={`${styles.container} background`}>
@@ -61,7 +76,7 @@ const Home: NextPage = () => {
         </h1>
         {message === 'true' ?
           <GenerateImage setGeneratedImage={setGeneratedImage} />
-          : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}{connected && !allowed && <span> Claim on <a className='text-indigo-500 cursor-pointer'>here</a></span>}</p>
+          : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}{connected && !allowed && <span> Claim on <a target="_blank" className='text-indigo-500 cursor-pointer'>here</a></span>}</p>
         }
         <div className='mt-8'>
           {connected ?
