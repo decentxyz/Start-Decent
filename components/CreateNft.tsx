@@ -174,7 +174,7 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
 
             <a 
               className="text-white mt-2" 
-              href={`https://twitter.com/intent/tweet?text=This NFT was made with AI ${generatedImage}`}
+              href={`https://twitter.com/intent/tweet?text=This NFT was made with AI by Decent x DALL·E 2`}
               target="_blank" 
               rel="noreferrer">
               <span className="flex items-center justify-center bg-black gap-2 px-1 tracking-widest font-[400]">
