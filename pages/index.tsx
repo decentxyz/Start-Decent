@@ -8,7 +8,6 @@ import GenerateImage from '../components/GenerateImage';
 import { useNetwork, useAccount } from 'wagmi';
 import setAllowList from '../lib/setAllowList';
 // import SetAllowList from '../lib/SetAllowList';
-import * as ethers from "ethers"
 
 const Home: NextPage = () => {
   const [generatedImage, setGeneratedImage] = useState<any>(null);
@@ -16,22 +15,22 @@ const Home: NextPage = () => {
   const { address } = useAccount();
   const [connected, setConnected] = useState(false);
   const [allowed, setAllowed] = useState(false);
-  const [message, setMessage] = useState('');
-  const [collectors, setCollectors] = useState([]);
+  // const [message, setMessage] = useState('');
+  // const [collectors, setCollectors] = useState([]);
   
 
-  const displayMessage = useCallback(() => {
-    if (connected && allowed) {
-      setMessage('true')
-    }
-    else if (!connected && allowed) {
-      setMessage('Please connect your wallet to continue.')
-    } 
-    else if (connected && !allowed) {
-      setMessage('You must have a Mint Podcast Season 6 Listener Badge to continue.')
-    }
-    else setMessage('Please connect your wallet to continue.')
-  }, [connected, allowed]);
+  // const displayMessage = useCallback(() => {
+  //   if (connected && allowed) {
+  //     setMessage('true')
+  //   }
+  //   else if (!connected && allowed) {
+  //     setMessage('Please connect your wallet to continue.')
+  //   } 
+  //   else if (connected && !allowed) {
+  //     setMessage('You must have a Mint Podcast Season 6 Listener Badge to continue.')
+  //   }
+  //   else setMessage('Please connect your wallet to continue.')
+  // }, [connected, allowed]);
 
   // need collectors to load before the next if statement
   // const checkAllowed = useCallback( () => {
@@ -42,22 +41,22 @@ const Home: NextPage = () => {
   //   }
   // }, [address, collectors])
 
-  const checkAllowed = () => {
-    let collectors = setAllowList()
+  // const checkAllowed = () => {
+  //   let collectors = setAllowList()
     //   .then(() => {
     //     if (collectors.indexOf(address) !== -1) {
     //       setAllowed(true)
     //     }
     // })
-    console.log(allowed)
-  }
+  //   console.log(allowed)
+  // }
 
-  useEffect(() => {
-    chain && setConnected(true);
-    checkAllowed();
-    displayMessage();
-    console.log("connectd",connected, "allow",allowed)
-  }, [chain, displayMessage, allowed, connected,])
+  // useEffect(() => {
+  //   chain && setConnected(true);
+  //   checkAllowed();
+  //   displayMessage();
+  //   console.log("connectd",connected, "allow",allowed)
+  // }, [chain, displayMessage, allowed, connected,])
 
   return (
     <div className={`${styles.container} background`}>
@@ -74,10 +73,10 @@ const Home: NextPage = () => {
         <h1 className={`${styles.title} pt-16 text-black`}>
           Create NFTs using DALL·E 2
         </h1>
-        {message === 'true' ?
+        {/* {message === 'true' ? */}
           <GenerateImage setGeneratedImage={setGeneratedImage} />
-          : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}{connected && !allowed && <span> Claim on <a target="_blank" className='text-indigo-500 cursor-pointer'>here</a></span>}</p>
-        }
+          {/* : <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>{message}{connected && !allowed && <span> Claim on <a target="_blank" className='text-indigo-500 cursor-pointer'>here</a></span>}</p>
+        } */}
         <div className='mt-8'>
           {connected ?
           // <CreateNft generatedImage={generatedImage}/>
