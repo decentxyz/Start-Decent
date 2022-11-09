@@ -36,7 +36,8 @@ const Home: NextPage = () => {
         <GenerateImage setGeneratedImage={setGeneratedImage} />
         <div className='mt-8'>
           {connected ?
-          <CreateNft generatedImage={generatedImage}/>
+          // <CreateNft generatedImage={generatedImage}/>
+          generatedImage && <p>NFT Minting Coming Soon...</p>
           :
           generatedImage && <p>Please Connect Your Wallet to Continue</p>
           }
