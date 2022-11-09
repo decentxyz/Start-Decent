@@ -1,4 +1,5 @@
 import { Alchemy, Network } from "alchemy-sdk";
+import { useState } from "react";
 
 // only configured for Ethereum right now
 const config = {
@@ -7,8 +8,7 @@ const config = {
 };
 const alchemy = new Alchemy(config);
 
-const setAllowList = async () => {
-
+const fetchOwners = async () => {
   // enter Adam's contract addresses
   // const address = "0xe785E82358879F061BC3dcAC6f0444462D4b5330";
   // address I own for testing
@@ -16,7 +16,17 @@ const setAllowList = async () => {
 
   // Get owners 
   const owners = await alchemy.nft.getOwnersForContract(address);
-  return owners;
+  console.log(owners.owners);
+  return owners.owners;
 };
+
+const setAllowList = async () => {
+  
+  try {
+    await fetchOwners();
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export default setAllowList;
