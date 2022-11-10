@@ -17,7 +17,7 @@ const Home: NextPage = () => {
   const [allowed, setAllowed] = useState(false);
   // const [message, setMessage] = useState('');
   // const [collectors, setCollectors] = useState([]);
-  
+
 
   // const displayMessage = useCallback(() => {
   //   if (connected && allowed) {
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
   //   }
   //   else if (!connected && allowed) {
   //     setMessage('Please connect your wallet to continue.')
-  //   } 
+  //   }
   //   else if (connected && !allowed) {
   //     setMessage('You must have a Mint Podcast Season 6 Listener Badge to continue.')
   //   }
@@ -51,12 +51,12 @@ const Home: NextPage = () => {
   //   console.log(allowed)
   // }
 
-  // useEffect(() => {
-  //   chain && setConnected(true);
-  //   checkAllowed();
-  //   displayMessage();
-  //   console.log("connectd",connected, "allow",allowed)
-  // }, [chain, displayMessage, allowed, connected,])
+  useEffect(() => {
+    chain && setConnected(true);
+    // checkAllowed();
+    // displayMessage();
+    // console.log("connectd",connected, "allow",allowed)
+  }, [chain, allowed, connected,])
 
   return (
     <div className={`${styles.container} background`}>
@@ -79,8 +79,8 @@ const Home: NextPage = () => {
         } */}
         <div className='mt-8'>
           {connected ?
-          // <CreateNft generatedImage={generatedImage}/>
-          generatedImage && <p>NFT Minting Coming Soon...</p>
+
+          generatedImage && <CreateNft generatedImage={generatedImage}/>
           :
           generatedImage && <p className='bg-black p-1 tracking-widest uppercase text-sm font-[400]'>Please Connect Your Wallet to Continue</p>
           }

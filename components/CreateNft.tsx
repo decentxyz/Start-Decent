@@ -9,6 +9,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import getDeploymentMetadata from "../lib/getDeploymentMetadata";
 import InfoField from "./InfoField";
 import Image from "next/image";
+import { NFTStorage, File, Blob } from 'nft.storage'
 
 const schema = yup.object().shape({
   collectionName: yup.string()
@@ -80,34 +81,51 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
       if (!signer) {
         console.error("Please connect wallet.")
       } else if (chain) {
-        const ipfsHash = await getMetadata().then((res: any) => {
-          return res
+        // create metadata
+        const metadata = {
+          description: 'Created with the Decent Protocol and DALL·E 2',
+          image: generatedImage,
+          name: getValues("collectionName"),
+          animation_url: generatedImage,
+        }
+
+        // build metadata json file
+        const data = JSON.stringify(metadata, null, 2);
+        const bytes = new TextEncoder().encode(data);
+        const blob = new Blob([bytes], {
+          type: "application/json;charset=utf-8",
         });
-        
-        const onChainMetadata = (chain.id === 1) ?
-            null :
-            {
-              description: ipfsHash.data.description || "",
-              imageURI: ipfsHash.data.image.href || "",
-              animationURI: ipfsHash.data.animation_url.href || "",
-            }
+
+        // send metadta file to ipfs
+        const client = new NFTStorage({ token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN || '' });
+        const ipfs = await client.storeBlob(blob);
+        console.log(ipfs);
 
         const sdk = new DecentSDK(chain.id, signer);
-
         let nft;
+
         try {
           console.log("deploying")
           nft = await edition.deploy(
             sdk,
-            getValues("collectionName"),
-            "DCNTAI",
-            1,
-            ethers.utils.parseEther(getValues("tokenPrice")),
-            1,
-            getValues("royalty") * 100,
-            `${ipfsHash.url}?`,
-            onChainMetadata
+            getValues("collectionName"), // name
+            "DCNTAI", // symbol
+            false, // hasAdjustableCap
+            1, // maxTokens
+            ethers.utils.parseEther(getValues("tokenPrice")), // tokenPrice
+            1, // maxTokenPurchase
+            null, // presaleMerkleRoot
+            0, // presaleStart
+            0, // presaleEnd
+            0, // saleStart
+            Math.floor((new Date()).getTime() / 1000 + (60 * 60 * 24 * 365)), // saleEnd = 1 year
+            getValues("royalty") * 100, // royaltyBPS
+            `ipfs://${ipfs}?`, // contractURI
+            `ipfs://${ipfs}?`, // metadataURI
+            null, // metadataRendererInit
+            null, // tokenGateConfig
           );
+          console.log("deployed to: ", nft.address);
         } catch (error) {
           console.error(error);
         } finally {
@@ -158,7 +176,7 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
               <InfoField isHovering={isHovering2} setIsHovering={setIsHovering2} xDirection={'left'} yDirection={'bottom'} infoText={"Please enter a percentage that you would like to receive from the value of every sale."} />
             </div>
             <div className="flex items-center w-fit text-black relative">
-              <input 
+              <input
                 className="create-field" {...register("royalty")} />
               <p className="text-sm absolute right-3">%</p>
             </div>
@@ -172,10 +190,10 @@ const CreateNft: React.FC<any> = ({ generatedImage }) => {
             </button>
             <p className="italic text-xs pt-4">{showLink ? `Edition created! Paste this into the blockscanner of your chain of choice to verify ${link}` : 'be patient, wallet confimration can take a sec'}</p>
 
-            <a 
-              className="text-white mt-2" 
+            <a
+              className="text-white mt-2"
               href={`https://twitter.com/intent/tweet?text=This NFT was made with AI by Decent x DALL·E 2`}
-              target="_blank" 
+              target="_blank"
               rel="noreferrer">
               <span className="flex items-center justify-center bg-black gap-2 px-1 tracking-widest font-[400]">
                 Share NFT
