@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@decent.xyz/sdk": "^0.1.2",
+    "@decent.xyz/sdk": "^0.2.0",
     "@hookform/error-message": "^2.0.0",
     "@hookform/resolvers": "^2.9.8",
     "@rainbow-me/rainbowkit": "^0.7.0",
