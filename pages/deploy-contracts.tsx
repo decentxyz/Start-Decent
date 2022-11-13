@@ -9,8 +9,8 @@ import { ethers } from "ethers";
 import InfoField from "../components/InfoField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import getDeploymentMetadata from "../lib/getDeploymentMetadata";
 import MediaUpload from "../components/MediaUpload/MediaUpload";
+import { NFTStorage, Blob } from 'nft.storage';
 
 const schema = yup.object().shape({
   collectionName: yup.string()
@@ -75,17 +75,6 @@ const Deploy: NextPage = () => {
     clearErrors();
   }
 
-  const getMetadata = async () => {
-    const ipfsHash = await getDeploymentMetadata({
-      image: nftImage,
-      name: getValues("collectionName"),
-      description: getValues("description"),
-      title: getValues("collectionName"),
-      audioFile: audioFile
-    })
-    return ipfsHash
-  }
-
   const success = (nft:any) => {
     setShowLink(true);
     setLink(nft.address);
@@ -96,32 +85,49 @@ const Deploy: NextPage = () => {
       if (!signer) {
         console.error("Please connect wallet.")
       } else if (chain) {
-        const ipfsHash = await getMetadata().then((res: any) => {
-          return res
+        // create metadata
+        const metadata = {
+          description: getValues("description"),
+          image: nftImage,
+          name: getValues("collectionName"),
+          animation_url: nftImage
+        }
+
+        // build metadata json file
+        const data = JSON.stringify(metadata, null, 1);
+        const bytes = new TextEncoder().encode(data);
+        const blob = new Blob([bytes], {
+          type: "application/json;charset=utf-8",
         });
-        
-        const onChainMetadata = (chain.id === 1) ?
-            null :
-            {
-              description: ipfsHash.data.description || "",
-              imageURI: ipfsHash.data.image.href || "",
-              animationURI: ipfsHash.data.animation_url.href || "",
-            }
+
+        // send metadata file to ipfs
+        const client = new NFTStorage({
+          token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN || ''
+        });
+        const ipfs = await client.storeBlob(blob);
 
         const sdk = new DecentSDK(chain.id, signer);
-
         let nft;
+
         try {
           nft = await edition.deploy(
             sdk,
-            getValues("collectionName"),
-            getValues("symbol"),
-            getValues("editionSize"),
-            ethers.utils.parseEther(getValues("tokenPrice")),
-            getValues("maxTokenPurchase") || 0,
-            getValues("royalty") * 100,
-            `${ipfsHash.url}?`,
-            onChainMetadata
+            getValues("collectionName"), // name
+            getValues("symbol"), // symbol
+            false, // hasAdjustableCap
+            getValues("editionSize"), // maxTokens
+            ethers.utils.parseEther(getValues("tokenPrice")), // tokenPrice
+            getValues("maxTokenPurchase") || 0, // maxTokensPurchase
+            null, //presaleMerkleRoot
+            0, // presaleStart
+            0, // presaleEnd
+            0, // saleStart
+            Math.floor((new Date()).getTime() / 1000 + (60 * 60 * 24 * 365)), // saleEnd = 1 year
+            getValues("royalty") * 100, // royaltyBPS
+            `ipfs://${ipfs}?`, // contractURI
+            `ipfs://${ipfs}?`, // metadataURI
+            null, // metadataRendererInit
+            null, // tokenGateConfig
           );
         } catch (error) {
           console.error(error);
