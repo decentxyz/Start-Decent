@@ -18,7 +18,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
+        <div className="flex items-center gap-4">
         <ConnectButton />
+          <Link href='https://github.com/decentxyz/Start-Decent' target='_blank'>
+            <Image src='/images/github-mark-white.svg' height={22} width={22} alt='link to repository' />
+          </Link>
+        </div>
 
         <h1 className={`${styles.title} font-medium`}>
           Welcome to the Decent Protocol
