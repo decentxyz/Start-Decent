@@ -13,7 +13,7 @@ const { chains, provider, webSocketProvider } = configureChains(
     chain.optimism,
     chain.arbitrum,
     ...(process.env.NEXT_PUBLIC_ENABLE_TESTNETS === 'true'
-      ? [chain.goerli, chain.rinkeby, chain.polygonMumbai, chain.arbitrumRinkeby, chain.optimismGoerli]
+      ? [chain.goerli, chain.polygonMumbai, chain.optimismGoerli, chain.arbitrumGoerli]
       : []),
   ],
   [
