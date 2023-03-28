@@ -115,6 +115,7 @@ const Deploy: NextPage = () => {
             getValues("collectionName"), // name
             getValues("symbol"), // symbol
             false, // hasAdjustableCap
+            false, // isSoulbound
             getValues("editionSize"), // maxTokens
             ethers.utils.parseEther(getValues("tokenPrice")), // tokenPrice
             getValues("maxTokenPurchase") || 0, // maxTokensPurchase
@@ -124,10 +125,13 @@ const Deploy: NextPage = () => {
             0, // saleStart
             Math.floor((new Date()).getTime() / 1000 + (60 * 60 * 24 * 365)), // saleEnd = 1 year
             getValues("royalty") * 100, // royaltyBPS
+            ethers.constants.AddressZero, // payoutAddress (if not owner)
             `ipfs://${ipfs}?`, // contractURI
             `ipfs://${ipfs}?`, // metadataURI
             null, // metadataRendererInit
             null, // tokenGateConfig
+            (pending: any) => { console.log("Pending nonce: ", pending.nonce) },
+            (receipt: any) => { console.log("Receipt block: ", receipt.blockNumber) },
           );
         } catch (error) {
           console.error(error);
@@ -211,7 +215,7 @@ const Deploy: NextPage = () => {
             <InfoField isHovering={isHovering3} setIsHovering={setIsHovering3} xDirection={'left'} yDirection={'bottom'} infoText={"Please enter a percentage that you would like to receive from the value of every sale.  We use EIP 2981."} />
           </div>
           <div className="flex items-center w-fit text-black relative">
-            <input 
+            <input
               className="border border-black" {...register("royalty")} />
             <p className="text-sm absolute right-3">%</p>
           </div>
