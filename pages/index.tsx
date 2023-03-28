@@ -40,28 +40,13 @@ const Home: NextPage = () => {
           <Link href='/deploy-contracts'>
           <div className={styles.card}>
             <h2 className='font-medium'>Test Decent Editions &rarr;</h2>
-            <p>Deploying sophisticated contracts has never been easier.</p>
+            <p>Deploying sophisticated NFT contracts has never been easier.</p>
           </div>
           </Link>
 
-          <a href="https://decentxyz.gitbook.io/decent-sdk-documentation/" className={styles.card}>
+          <a href="https://docs.decent.xyz" className={styles.card}>
             <h2 className='font-medium'>Decent Protocol Docs &rarr;</h2>
             <p>Review smart contracts and architecture.</p>
-          </a>
-
-          <a href="https://rainbowkit.com" className={styles.card}>
-            <h2 className='font-medium'>RainbowKit Docs &rarr;</h2>
-            <p>Learn how to customize your wallet connection flow.</p>
-          </a>
-
-          <a href="https://wagmi.sh" className={styles.card}>
-            <h2 className='font-medium'>wagmi Docs &rarr;</h2>
-            <p>Learn how to interact with Ethereum.</p>
-          </a>
-
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2 className='font-medium'>Next.js Docs &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
           </a>
 
           <a href="https://hq.decent.xyz" className={styles.card}>

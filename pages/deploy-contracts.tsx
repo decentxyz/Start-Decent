@@ -118,7 +118,7 @@ const Deploy: NextPage = () => {
             false, // isSoulbound
             getValues("editionSize"), // maxTokens
             ethers.utils.parseEther(getValues("tokenPrice")), // tokenPrice
-            getValues("maxTokenPurchase") || 0, // maxTokensPurchase
+            getValues("maxTokenPurchase") || 100, // maxTokensPurchase
             null, //presaleMerkleRoot
             0, // presaleStart
             0, // presaleEnd
@@ -132,6 +132,7 @@ const Deploy: NextPage = () => {
             null, // tokenGateConfig
             (pending: any) => { console.log("Pending nonce: ", pending.nonce) },
             (receipt: any) => { console.log("Receipt block: ", receipt.blockNumber) },
+            '0x000', //parentIP
           );
         } catch (error) {
           console.error(error);
