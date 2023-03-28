@@ -132,7 +132,7 @@ const Deploy: NextPage = () => {
             null, // tokenGateConfig
             (pending: any) => { console.log("Pending nonce: ", pending.nonce) },
             (receipt: any) => { console.log("Receipt block: ", receipt.blockNumber) },
-            '0x000', //parentIP
+            undefined, //parentIP
           );
         } catch (error) {
           console.error(error);
