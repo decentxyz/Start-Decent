@@ -86,19 +86,41 @@ const Deploy: NextPage = () => {
         console.error("Please connect wallet.")
       } else if (chain) {
         // create metadata
-        const metadata = {
-          description: getValues("description"),
-          image: nftImage.raw,
-          name: getValues("collectionName"),
-          animation_url: nftImage.raw
-        }
-
-
         // send metadata file to ipfs
         const client = new NFTStorage({
           token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN || ''
         });
-        const ipfs = await client.store(metadata);
+        
+        const promise = (fileo: any) => new Promise((resolve) => {
+          const fr = new FileReader()
+
+          fr.onload = async function () {
+            const b = new Blob([fr.result as ArrayBuffer])
+            const ipfsImg = await client.storeBlob(b)
+            resolve(ipfsImg)
+          }
+          fr.readAsArrayBuffer(fileo as any)
+        })
+
+        const ipfsImg = await promise(nftImage.raw)
+        const ipfsAudio = (audioFile as any)?.raw?.size && (audioFile as any)?.raw?.size > 0 ? await promise(audioFile.raw) : ipfsImg
+        
+        // create metadata
+        const metadata = {
+          description: getValues("description"),
+          image: `ipfs://${ipfsImg}?`,
+          name: getValues("collectionName"),
+          animation_url: `ipfs://${ipfsAudio}?`
+        }
+
+        // build metadata json file
+        const data = JSON.stringify(metadata, null, 1);
+        const bytes = new TextEncoder().encode(data);
+        const blob = new Blob([bytes], {
+          type: "application/json;charset=utf-8",
+        });
+
+        const ipfs = await client.storeBlob(blob);
 
         const sdk = new DecentSDK(chain.id, signer);
         let nft;
