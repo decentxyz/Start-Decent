@@ -88,23 +88,17 @@ const Deploy: NextPage = () => {
         // create metadata
         const metadata = {
           description: getValues("description"),
-          image: nftImage,
+          image: nftImage.raw,
           name: getValues("collectionName"),
-          animation_url: nftImage
+          animation_url: nftImage.raw
         }
 
-        // build metadata json file
-        const data = JSON.stringify(metadata, null, 1);
-        const bytes = new TextEncoder().encode(data);
-        const blob = new Blob([bytes], {
-          type: "application/json;charset=utf-8",
-        });
 
         // send metadata file to ipfs
         const client = new NFTStorage({
           token: process.env.NEXT_PUBLIC_NFT_STORAGE_TOKEN || ''
         });
-        const ipfs = await client.storeBlob(blob);
+        const ipfs = await client.store(metadata);
 
         const sdk = new DecentSDK(chain.id, signer);
         let nft;
@@ -126,8 +120,8 @@ const Deploy: NextPage = () => {
             Math.floor((new Date()).getTime() / 1000 + (60 * 60 * 24 * 365)), // saleEnd = 1 year
             getValues("royalty") * 100, // royaltyBPS
             ethers.constants.AddressZero, // payoutAddress (if not owner)
-            `ipfs://${ipfs}?`, // contractURI
-            `ipfs://${ipfs}?`, // metadataURI
+            `ipfs://${ipfs}/metadata.json`, // contractURI
+            `ipfs://${ipfs}/metadata.json`, // metadataURI
             null, // metadataRendererInit
             null, // tokenGateConfig
             (pending: any) => { console.log("Pending nonce: ", pending.nonce) },
