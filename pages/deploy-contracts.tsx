@@ -142,8 +142,8 @@ const Deploy: NextPage = () => {
             Math.floor((new Date()).getTime() / 1000 + (60 * 60 * 24 * 365)), // saleEnd = 1 year
             getValues("royalty") * 100, // royaltyBPS
             ethers.constants.AddressZero, // payoutAddress (if not owner)
-            `ipfs://${ipfs}/metadata.json`, // contractURI
-            `ipfs://${ipfs}/metadata.json`, // metadataURI
+            `ipfs://${ipfs}?`, // contractURI
+            `ipfs://${ipfs}?`, // metadataURI
             null, // metadataRendererInit
             null, // tokenGateConfig
             (pending: any) => { console.log("Pending nonce: ", pending.nonce) },
